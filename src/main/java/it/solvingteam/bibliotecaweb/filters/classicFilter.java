@@ -21,7 +21,6 @@ public class classicFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		System.out.println("Sono nel filter di classic");
 		HttpServletRequest servletRequest=(HttpServletRequest) request;
 		HttpSession session=servletRequest.getSession();
 		if (session.getAttribute("utenteIdentificato")==null||!session.getAttribute("hasClassicRole").equals("true")) {

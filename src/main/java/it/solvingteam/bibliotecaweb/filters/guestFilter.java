@@ -21,7 +21,6 @@ public class guestFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		System.out.println("Sono nel filter di guest");
 		HttpServletRequest servletRequest=(HttpServletRequest) request;
 		HttpSession session=servletRequest.getSession();
 		if (session.getAttribute("utenteIdentificato")==null||!session.getAttribute("hasGuestRole").equals("true")) {

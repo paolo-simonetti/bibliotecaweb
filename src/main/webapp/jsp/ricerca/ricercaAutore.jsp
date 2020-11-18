@@ -30,28 +30,28 @@
 		    </div>
 		    <div class='card-body'>
 
-					<form method="post" action="${pageContext.request.contextPath}/ExecuteRicercaAutoreServlet" novalidate="novalidate">
+					<form method="post" action="${pageContext.request.contextPath}/accessoEffettuato/ricerca/autori/ExecuteRicercaAutoriServlet" novalidate="novalidate">
 					
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label>Nome dell'autore</label>
-								<input type="text" name="codice" id="codice" class="form-control">
+								<input type="text" name="nomeAutore" id="nomeAutore" class="form-control">
 							</div>
 							
 							<div class="form-group col-md-6">
 								<label>Cognome dell'autore</label>
-								<input type="text" name="descrizione" id="descrizione" class="form-control">
+								<input type="text" name="cognomeAutore" id="cognomeAutore" class="form-control">
 							</div>
 						</div>
 						
 						<div class="form-row">	
 							<div class="form-group col-md-3">
 								<label>Data di nascita</label>
-								<input type="date" class="form-control" name="prezzo" id="prezzo">
+								<input type="date" class="form-control" name="dataNascita" id="dataNascita">
 							</div>		
 							<div class="form-group col-md-3">
 								<label>Libro</label>
-								<input type="text" class="form-control" name="categoria" id="categoria" placeholder="Inserisci uno dei titoli che ha scritto, se lo ricordi">
+								<input type="text" class="form-control" name="libro" id="libro" placeholder="Inserisci il titolo di un suo libro">
 							</div>		
 
 						</div>

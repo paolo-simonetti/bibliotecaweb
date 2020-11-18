@@ -1,6 +1,8 @@
 package it.solvingteam.bibliotecaweb.service.autore;
 
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -162,6 +164,25 @@ public class AutoreServiceImpl implements AutoreService {
 	@Override
 	public void setAutoreDAO(AutoreDAO autoreDAO) {
 		this.autoreDAO=autoreDAO;
+	}
+
+	@Override
+	public Set<Autore> trovaTuttiTramiteAttributiELibro(TreeMap<String, TreeSet<String>> input) throws Exception {
+		if (input==null) {
+			throw new Exception("Errore nell'input di ricerca");
+		}
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+		
+			autoreDAO.setEntityManager(entityManager);
+			return autoreDAO.findAllByExampleAndLibro(input);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			entityManager.close();
+		}
 	}
 
 }
