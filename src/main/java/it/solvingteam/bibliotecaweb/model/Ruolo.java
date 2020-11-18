@@ -34,7 +34,7 @@ public class Ruolo implements Comparable<Ruolo> {
 		
 	public Ruolo(NomeRuolo nomeRuolo) {
 		this.nomeRuolo=nomeRuolo;
-		this.descrizioneRuolo=nomeRuolo.toString();
+		this.descrizioneRuolo=nomeRuolo.getNomeRuolo();
 	}
 	
 	public Long getIdRuolo() {

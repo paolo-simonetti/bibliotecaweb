@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 
 import it.solvingteam.bibliotecaweb.model.Ruolo;
+import it.solvingteam.bibliotecaweb.model.Utente;
 
 public class RuoloDAOImpl implements RuoloDAO {
 
@@ -70,5 +71,6 @@ public class RuoloDAOImpl implements RuoloDAO {
 		this.entityManager=entityManager;
 		
 	}
+
 
 }

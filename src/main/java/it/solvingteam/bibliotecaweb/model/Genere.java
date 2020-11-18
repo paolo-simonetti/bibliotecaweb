@@ -76,7 +76,8 @@ public enum Genere {
 	
 	public static Map<String,Genere> conversioneGenere=new TreeMap<>();
 	static {
-	
+
+		conversioneGenere.put("classici", CLASSICI);
 		conversioneGenere.put("storico",STORICO);
 		conversioneGenere.put("narrativa",NARRATIVA);
 		conversioneGenere.put("rosa",ROSA);

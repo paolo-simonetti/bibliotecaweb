@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,7 +41,7 @@ public class Utente implements Comparable<Utente>{
 	@Enumerated(EnumType.STRING)
 	private StatoUtente statoUtente = StatoUtente.ABILITATO;
 
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "id_utente"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "id_ruolo"))
 	private Set<Ruolo> ruoli = new TreeSet<>();
 

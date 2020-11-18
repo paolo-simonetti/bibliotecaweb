@@ -9,8 +9,10 @@ public class StandAloneUtils {
 		conversioneMessaggio.put(true,"Esito: RIUSCITO");		
 	}
 	
-	public void testaOperazione(boolean esitoOperazione) {
-		System.out.println(conversioneMessaggio.get(esitoOperazione));
+	public static String testaOperazione(boolean esitoOperazione) {
+		return conversioneMessaggio.get(esitoOperazione);
 	}
+	
+
 
 }

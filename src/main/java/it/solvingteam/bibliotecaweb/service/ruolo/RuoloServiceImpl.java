@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import it.solvingteam.bibliotecaweb.dao.EntityManagerUtil;
 import it.solvingteam.bibliotecaweb.dao.ruolo.RuoloDAO;
 import it.solvingteam.bibliotecaweb.model.Ruolo;
+import it.solvingteam.bibliotecaweb.model.Utente;
 
 public class RuoloServiceImpl implements RuoloService {
 
@@ -70,7 +71,7 @@ public class RuoloServiceImpl implements RuoloService {
 				Set<Ruolo> ruoliPresenti=ruoloDAO.list();
 				for (Ruolo r:ruoliPresenti) {
 					if (r.equals(ruoloInstance)) {
-						throw new Exception("Inserimento negato: ruolo già presente");
+						System.err.println("Inserimento negato: ruolo già presente");
 					}
 				}
 				
@@ -93,11 +94,14 @@ public class RuoloServiceImpl implements RuoloService {
 		throw new Exception("Rimozione del ruolo negato: funzionalità non implementata");
 	}
 
+	
+	
 	private RuoloDAO ruoloDAO;
 	
 	@Override
 	public void setRuoloDAO(RuoloDAO ruoloDAO) {
 		this.ruoloDAO=ruoloDAO;	
 	}
+
 
 }
