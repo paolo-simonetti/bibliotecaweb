@@ -75,9 +75,14 @@
 		                        <td><c:out value="${item.dataNascita}"></c:out></td>
 		                     
 		                         <td>
-									<a class="btn  btn-sm btn-outline-secondary" href="GetArticoloDaListaServlet?idArticoloDaVisualizzare=${item.idAutore}">Visualizza articolo</a>
-									<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}"><a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateArticoloDaListaServlet?idArticoloDaAggiornare=${item.idAutore}">Edit</a></c:if>
-									<c:if test="${sessionScope.hasAdminRole eq 'true'}"><a class="btn btn-outline-danger btn-sm" href="PrepareDeleteArticoloDaListaServlet?idArticoloDaEliminare=${item.idAutore}">Delete</a></c:if>
+									<a class="btn  btn-sm btn-outline-secondary" 
+									  href="${pageContext.request.contextPath}/accessoEffettuato/visualizzazione/VisualizzazioneAutoreServlet?idAutoreDaVisualizzare=${item.idAutore}&paginaDiProvenienza=risultatiInserimentoAutore">Visualizza autore</a>
+									<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
+									  <a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateArticoloDaListaServlet?idArticoloDaAggiornare=${item.idAutore}">Edit</a>
+									 </c:if>
+									<c:if test="${sessionScope.hasAdminRole eq 'true'}">
+									  <a class="btn btn-outline-danger btn-sm" href="PrepareDeleteArticoloDaListaServlet?idArticoloDaEliminare=${item.idAutore}">Delete</a>
+									</c:if>
 								</td>
 		                      </tr>
 		                	</c:forEach>		                   

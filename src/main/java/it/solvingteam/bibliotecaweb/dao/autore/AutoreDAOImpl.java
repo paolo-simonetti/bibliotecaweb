@@ -30,6 +30,8 @@ public class AutoreDAOImpl implements AutoreDAO {
 			throw new Exception("Errore nel recupero dell'autore con id="+idAutore);
 		}
 	}
+	
+	
 
 	@Override
 	public boolean update(Autore autoreInstance) throws Exception {
@@ -110,6 +112,20 @@ public class AutoreDAOImpl implements AutoreDAO {
 		// Ora la query è pronta.
 		autoriResult= entityManager.createQuery(query,Autore.class).getResultList().stream().collect(Collectors.toSet());
 		return autoriResult;
+	}
+
+	@Override
+	public Autore getWithLibri(Long idAutore) throws Exception {
+		Autore autoreResult=null;
+		String query="SELECT a from Autore a join fetch a.libriScritti where a.idAutore="+idAutore;
+		try {
+			autoreResult=entityManager.createQuery(query,Autore.class).getResultList().stream().findFirst().orElse(null);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new Exception("Errore nel recupero dell'autore richiesto");
+		}
+		
+		return autoreResult;
 	}
 
 }

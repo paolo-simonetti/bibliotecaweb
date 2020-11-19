@@ -185,4 +185,25 @@ public class AutoreServiceImpl implements AutoreService {
 		}
 	}
 
+	@Override
+	public Autore caricaSingoloElementoConLibri(Long idAutore) throws Exception {
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		if (idAutore==null||idAutore<=0) {
+			throw new Exception("Errore nell'id dell'autore in input");
+		}
+
+		try {
+			autoreDAO.setEntityManager(entityManager);
+
+			return autoreDAO.getWithLibri(idAutore);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			entityManager.close();
+		}
+
+	}
+
 }

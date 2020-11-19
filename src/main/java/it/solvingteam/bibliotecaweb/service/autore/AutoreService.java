@@ -11,6 +11,8 @@ import it.solvingteam.bibliotecaweb.service.IBaseService;
 public interface AutoreService extends IBaseService<Autore> {
 	
 	public Set<Autore> trovaTuttiTramiteAttributiELibro(TreeMap<String,TreeSet<String>> input) throws Exception;
+	public Autore caricaSingoloElementoConLibri(Long idInput) throws Exception;
+	
 	
 	public void setAutoreDAO(AutoreDAO autoreDAO);
 }
