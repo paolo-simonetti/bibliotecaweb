@@ -106,7 +106,7 @@ public class AutoreDAOImpl implements AutoreDAO {
 		} else {
 			query=query.substring(0,query.length()-"AND ".length());
 		}
-		System.out.println(query);
+
 		// Ora la query è pronta.
 		autoriResult= entityManager.createQuery(query,Autore.class).getResultList().stream().collect(Collectors.toSet());
 		return autoriResult;

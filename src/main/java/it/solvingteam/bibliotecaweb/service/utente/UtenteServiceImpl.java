@@ -1,6 +1,8 @@
 package it.solvingteam.bibliotecaweb.service.utente;
 
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -157,6 +159,25 @@ public class UtenteServiceImpl implements UtenteService {
 	@Override
 	public void setUtenteDAO(UtenteDAO utenteDAO) {
 		this.utenteDAO=utenteDAO;
+	}
+
+	@Override
+	public Set<Utente> trovaTuttiTramiteAttributiERuolo(TreeMap<String, TreeSet<String>> input) throws Exception {
+		if (input==null) {
+			throw new Exception("Errore nell'input di ricerca");
+		}
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+		
+			utenteDAO.setEntityManager(entityManager);
+			return utenteDAO.findAllByExampleAndRuolo(input);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			entityManager.close();
+		}
 	}
 
 }

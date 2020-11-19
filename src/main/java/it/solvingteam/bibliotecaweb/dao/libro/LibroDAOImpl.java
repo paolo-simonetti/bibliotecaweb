@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
-import it.solvingteam.bibliotecaweb.model.Autore;
 import it.solvingteam.bibliotecaweb.model.Libro;
 
 public class LibroDAOImpl implements LibroDAO {
@@ -107,13 +106,15 @@ public class LibroDAOImpl implements LibroDAO {
 		if (input.get("ISBN")!=null) {
 			String pezzoQueryISBN="l.ISBN = "+"'"+input.get("ISBN").stream().reduce("",(s,t)->s+t)+"'"; //input è una mappa a valori TreeSet
 			query+=pezzoQueryISBN;
+			if(input.get("ISBN")!=null) {
+				query+=" AND ";
+			}
 		}
 		if (input.get("genere")!=null) {
 			String pezzoQueryGenere="l.genere like "+"'"+input.get("genere").stream().reduce("",(s,t)->s+t)+"'";
 			query+=pezzoQueryGenere;
 		}
 
-		System.out.println(query);
 		// Ora la query è pronta.
 		libriResult= entityManager.createQuery(query,Libro.class).getResultList().stream().collect(Collectors.toSet());
 		return libriResult;

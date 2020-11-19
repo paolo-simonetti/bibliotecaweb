@@ -52,6 +52,7 @@ public class WebUtils {
 		if (!"978".equals(ISBN.substring(0,3))) {
 			throw new Exception("Cifre iniziali dell'ISBN non corrette");
 		}
+		@SuppressWarnings("unused")
 		Long numeroISBN=Long.parseLong(ISBN);	
 	} 
 	

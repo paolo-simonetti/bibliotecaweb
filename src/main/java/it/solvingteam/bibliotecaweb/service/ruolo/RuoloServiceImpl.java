@@ -6,8 +6,8 @@ import javax.persistence.EntityManager;
 
 import it.solvingteam.bibliotecaweb.dao.EntityManagerUtil;
 import it.solvingteam.bibliotecaweb.dao.ruolo.RuoloDAO;
+import it.solvingteam.bibliotecaweb.model.NomeRuolo;
 import it.solvingteam.bibliotecaweb.model.Ruolo;
-import it.solvingteam.bibliotecaweb.model.Utente;
 
 public class RuoloServiceImpl implements RuoloService {
 
@@ -64,7 +64,8 @@ public class RuoloServiceImpl implements RuoloService {
 			entityManager.getTransaction().begin();
 			ruoloDAO.setEntityManager(entityManager);
 			//Permetto di inserire un ruolo nel db solo se è tra quelli che ho previsto nella classe Ruolo 
-			if (!Ruolo.conversioneRuolo.values().contains(ruoloInstance.getNomeRuolo())) {
+			if (!NomeRuolo.conversioneRuolo.values().contains(ruoloInstance.getNomeRuolo())) {
+				entityManager.getTransaction().rollback();
 				throw new Exception("Inserimento fallito: ruolo non attualmente disponibile");
 			} else {
 				//Controllo che il ruolo non sia già presente

@@ -61,7 +61,8 @@ public class ExecuteRicercaLibriServlet extends HttpServlet {
 			}
 		}
 
-		//Genero una mappa con solo gli input di ricerca non vuoti. I campi diversi da genere e da ISBN vengono splittati nelle parole che li compongono 
+		/*Genero una mappa i cui valori sono null se gli input di ricerca sono vuoti, altrimenti sono gli input di ricerca. 
+		 * I campi diversi da genere e da ISBN vengono splittati nelle parole che li compongono */
 		TreeMap<String,TreeSet<String>> mappaCampoToValore=new TreeMap<>();
 		// Nella mappa, chiamo le chiavi con lo stesso nome degli attributi nel model, per far funzionare la query nel DAOImpl
 		mappaCampoToValore.put("titolo",WebUtils.splittaInputSeNonVuoto(titoloInputParam)); //il secondo parametro risulta null se l'input è vuoto

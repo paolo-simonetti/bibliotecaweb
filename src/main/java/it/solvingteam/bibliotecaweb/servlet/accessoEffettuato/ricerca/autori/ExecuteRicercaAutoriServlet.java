@@ -56,18 +56,14 @@ public class ExecuteRicercaAutoriServlet extends HttpServlet {
 			}
 		}
 
-		//Genero una mappa con solo gli input di ricerca non vuoti. I campi diversi da dataNascita vengono splittati nelle parole che li compongono 
+		/*Genero una mappa i cui valori sono null se gli input di ricerca sono vuoti, altrimenti sono gli input di ricerca. 
+		 * I campi diversi da dataNascita vengono splittati nelle parole che li compongono. */
 		TreeMap<String,TreeSet<String>> mappaCampoToValore=new TreeMap<>();
 		// Nella mappa, chiamo le chiavi con lo stesso nome degli attributi nel model, per far funzionare la query nel DAOImpl
-		mappaCampoToValore.put("nomeAutore",WebUtils.splittaInputSeNonVuoto(nomeAutoreInputParam)); //il secondo parametro risulta null se l'input è vuoto
+		mappaCampoToValore.put("nomeAutore",WebUtils.splittaInputSeNonVuoto(nomeAutoreInputParam)); 
 		mappaCampoToValore.put("cognomeAutore",WebUtils.splittaInputSeNonVuoto(cognomeAutoreInputParam));
 		mappaCampoToValore.put("titolo",WebUtils.splittaInputSeNonVuoto(libroStringInputParam));
-		TreeSet<String> setMonoElemento=null;
-		if (dataNascitaStringInputParam!=null&&!dataNascitaStringInputParam.isEmpty()) {
-			setMonoElemento=new TreeSet<>(); // Voglio mettere anche la data, mi tocca farlo così per via del tipo della mappa
-			setMonoElemento.add(dataNascitaStringInputParam);	
-		}
-		mappaCampoToValore.put("dataNascita",setMonoElemento); 
+		mappaCampoToValore.put("dataNascita",WebUtils.generaTreeSetConElemento(dataNascitaStringInputParam));
 		try {
 			Set<Autore> autoriRisultanti=MyServiceFactory.getAutoreServiceInstance().trovaTuttiTramiteAttributiELibro(mappaCampoToValore);
 			request.setAttribute("elencoAutori",autoriRisultanti);

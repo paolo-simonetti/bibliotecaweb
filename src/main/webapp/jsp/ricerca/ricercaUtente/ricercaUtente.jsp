@@ -3,7 +3,6 @@
 
 <html lang="it">
 <head>
-	<jsp:include page="${pageContext.request.contextPath}/jsp/generali/header.jsp" />
 	<title>Ricerca avanzata di utente</title>
 	
 	<!-- style per le pagine diverse dalla index -->
@@ -11,7 +10,6 @@
     
 </head>
 <body>
-	<jsp:include page="${pageContext.request.contextPath}/jsp/generali/navbar.jsp" />
 	
 	<main role="main" class="container">
 	
@@ -30,7 +28,7 @@
 		    </div>
 		    <div class='card-body'>
 
-					<form method="post" action="${pageContext.request.contextPath}/accessoEffettuato/ricerca/autori/ExecuteRicercaAutoriServlet" novalidate="novalidate">
+					<form method="post" action="${pageContext.request.contextPath}/accessoEffettuato/ricerca/utenti/ExecuteRicercaUtentiServlet" novalidate="novalidate">
 					
 						<div class="form-row">
 							
@@ -53,11 +51,31 @@
 							<div class="form-group col-md-3">
 								<label>Data di creazione dell'account</label> 
 								<input type="date" class="form-control" name="dateCreated" id="dateCreated">
-							</div>		
-							<div class="form-group col-md-6">
-								<label>Ruolo nel sito</label>
-								<input type="text" name="ruoli" id="ruoli" class="form-control">
-							</div>
+							</div>		 
+						</div>
+						
+						<div class="form-row">
+						  <div class="form-group">
+  					        <label for="selectRuolo">Ruolo:</label>
+  					        <select class="form-control" id="selectRuolo" name="descrizioneRuolo">
+     					      <c:forEach items="${requestScope.listaRuoli}" var="ruoloDisponibile">
+    					        <option value="${ruoloDisponibile}">
+    					    	  ${ruoloDisponibile}
+    					    	</option>
+    					      </c:forEach>
+  					        </select>
+					      </div>
+					      
+					      <div class="form-group">
+  					        <label for="selectStato">Stato utente:</label>
+  					        <select class="form-control" id="selectStato" name="statoUtente">
+     					      <c:forEach items="${requestScope.listaStati}" var="statoPossibile">
+    					        <option value="${statoPossibile}">
+    					    	  ${statoPossibile}
+    					    	</option>
+    					      </c:forEach>
+  					        </select>
+					      </div>
 						</div>
 	
 							
@@ -75,7 +93,6 @@
 	
 	<!-- end container -->	
 	</main>
-	<jsp:include page="${pageContext.request.contextPath}/jsp/generali/footer.jsp" />
 	
 </body>
 </html>

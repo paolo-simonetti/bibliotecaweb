@@ -1,19 +1,20 @@
 package it.solvingteam.bibliotecaweb.dao.ruolo;
 
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 
 import it.solvingteam.bibliotecaweb.model.Ruolo;
-import it.solvingteam.bibliotecaweb.model.Utente;
 
 public class RuoloDAOImpl implements RuoloDAO {
 
 	@Override
 	public Set<Ruolo> list() throws Exception {
 		try {
-			return entityManager.createQuery("from Ruolo",Ruolo.class).getResultList().stream().collect(Collectors.toSet());			
+			Set<Ruolo> result=new TreeSet<>();
+			entityManager.createQuery("from Ruolo",Ruolo.class).getResultList().stream().forEach(ruolo->result.add(ruolo));			
+			return result;
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw new Exception("Errore nell'elencazione dei ruoli");

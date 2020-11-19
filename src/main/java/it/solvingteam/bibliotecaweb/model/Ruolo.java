@@ -1,8 +1,5 @@
 package it.solvingteam.bibliotecaweb.model;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -60,13 +57,7 @@ public class Ruolo implements Comparable<Ruolo> {
 	public String toString() {
 		return nomeRuolo.toString();
 	} 
-	public static Map<String,NomeRuolo> conversioneRuolo=new TreeMap<>();
-	static {
-		
-		conversioneRuolo.put("admin", NomeRuolo.ADMIN_ROLE);
-		conversioneRuolo.put("classic", NomeRuolo.CLASSIC_ROLE);
-		conversioneRuolo.put("guest", NomeRuolo.GUEST_ROLE);
-	}
+	
 	@Override
 	public int compareTo(Ruolo ruolo) {
 		return descrizioneRuolo.compareTo(ruolo.getDescrizioneRuolo());
