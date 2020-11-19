@@ -1,6 +1,8 @@
 package it.solvingteam.bibliotecaweb.service.libro;
 
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -160,6 +162,26 @@ public class LibroServiceImpl implements LibroService {
 	@Override
 	public void setLibroDAO(LibroDAO libroDAO) {
 		this.libroDAO=libroDAO;
+	}
+
+	@Override
+	public Set<Libro> trovaTuttiTramiteAttributiEAutore(TreeMap<String, TreeSet<String>> input) throws Exception {
+		if (input==null) {
+			throw new Exception("Errore nell'input di ricerca");
+		}
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+		
+			libroDAO.setEntityManager(entityManager);
+			return libroDAO.findAllByExampleAndAutore(input);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			entityManager.close();
+		}
+
 	}
 
 }

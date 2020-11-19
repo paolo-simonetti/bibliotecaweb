@@ -1,4 +1,4 @@
-package it.solvingteam.bibliotecaweb.servlet.accessoEffettuato.ricerca.autori;
+package it.solvingteam.bibliotecaweb.servlet.accessoEffettuato.ricerca.utenti;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,15 +7,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/accessoEffettuato/ricerca/autori/PrepareRicercaAutoriServlet")
-public class PrepareRicercaAutoriServlet extends HttpServlet {
+@WebServlet("/accessoEffettuato/ricerca/utenti/PrepareRicercaUtentiServlet")
+public class PrepareRicercaUtentiServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public PrepareRicercaAutoriServlet() {
+    public PrepareRicercaUtentiServlet() {
+        super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaAutore.jsp").forward(request, response);
+		request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaUtente.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

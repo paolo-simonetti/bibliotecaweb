@@ -1,14 +1,9 @@
 package it.solvingteam.bibliotecaweb.servlet.accessoEffettuato.ricerca.autori;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,9 +34,8 @@ public class ExecuteRicercaAutoriServlet extends HttpServlet {
 		String libroStringInputParam=request.getParameter("libro");
 		// Valido gli input di ricerca
 		if (!dataNascitaStringInputParam.isEmpty()) {
-			LocalDate dataNascita=null;
 			try {
-				dataNascita=WebUtils.stringToLocalDate(dataNascitaStringInputParam);
+				WebUtils.stringToLocalDate(dataNascitaStringInputParam);
 			} catch(Exception e) {
 				request.setAttribute("errorMessage", "Dati inseriti non validi");
 				request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaAutore.jsp").forward(request,response);

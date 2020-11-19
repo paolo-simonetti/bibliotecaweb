@@ -44,4 +44,25 @@ public class WebUtils {
 		}
 		
 	}
+	
+	public static void validaISBN(String ISBN) throws Exception {
+		if (ISBN.length()!=13) {
+			throw new Exception("Lunghezza dell'ISBN non corretta");
+		} 
+		if (!"978".equals(ISBN.substring(0,3))) {
+			throw new Exception("Cifre iniziali dell'ISBN non corrette");
+		}
+		Long numeroISBN=Long.parseLong(ISBN);	
+	} 
+	
+	public static TreeSet<String> generaTreeSetConElemento(String input) {
+		if (input!=null&&!input.isEmpty()) {
+			TreeSet<String> setMonoElemento=new TreeSet<>(); 
+			setMonoElemento.add(input);
+			return setMonoElemento;
+		} else {
+			return null;
+		}
+		
+	}
 }

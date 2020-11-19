@@ -36,8 +36,8 @@
 	      <h1 class="display-3">Benvenuto nell'enorme biblioteca di Monsampolo del Tronto!</h1>
 	      <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
 	      <p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/accessoEffettuato/ricerca/autori/PrepareRicercaAutoriServlet" role="button">Vai alla ricerca Autori &raquo;</a></p>
-          <p><a class="btn btn-primary btn-lg" href="ListCategorieServlet" role="button">Vai alla ricerca Libri &raquo;</a></p>
-          <c:if test="${sessionScope.hasAdminRole eq 'true'}"><a class="btn btn-primary btn-lg" href="ListUtentiServlet" role="button">Vai alla ricerca Utenti &raquo;</a> </c:if>
+          <p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/accessoEffettuato/ricerca/libri/PrepareRicercaLibriServlet" role="button">Vai alla ricerca Libri &raquo;</a></p>
+          <c:if test="${sessionScope.hasAdminRole eq 'true'}"><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/accessoEffettuato/ricerca/utenti/PrepareRicercaUtentiServlet" role="button">Vai alla ricerca Utenti &raquo;</a> </c:if>
 	    </div>
 	  </div>
 	  

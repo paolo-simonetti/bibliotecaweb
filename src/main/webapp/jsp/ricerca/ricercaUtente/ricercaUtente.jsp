@@ -3,15 +3,15 @@
 
 <html lang="it">
 <head>
-	<jsp:include page="../generali/header.jsp" />
-	<title>Ricerca avanzata di autore</title>
+	<jsp:include page="${pageContext.request.contextPath}/jsp/generali/header.jsp" />
+	<title>Ricerca avanzata di utente</title>
 	
 	<!-- style per le pagine diverse dalla index -->
     <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
     
 </head>
 <body>
-	<jsp:include page="../generali/navbar.jsp" />
+	<jsp:include page="${pageContext.request.contextPath}/jsp/generali/navbar.jsp" />
 	
 	<main role="main" class="container">
 	
@@ -33,27 +33,31 @@
 					<form method="post" action="${pageContext.request.contextPath}/accessoEffettuato/ricerca/autori/ExecuteRicercaAutoriServlet" novalidate="novalidate">
 					
 						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label>Nome dell'autore</label>
-								<input type="text" name="nomeAutore" id="nomeAutore" class="form-control">
-							</div>
 							
 							<div class="form-group col-md-6">
-								<label>Cognome dell'autore</label>
-								<input type="text" name="cognomeAutore" id="cognomeAutore" class="form-control">
+								<label>Nome dell'utente</label>
+								<input type="text" name="nomeUtente" id="nomeUtente" class="form-control">
 							</div>
+							<div class="form-group col-md-3">
+								<label>Cognome dell'utente</label>
+								<input type="text" class="form-control" name="cognomeUtente" id="cognomeUtente">
+							</div>		
+							
 						</div>
 						
-						<div class="form-row">	
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label>Username</label>
+								<input type="text" name="username" id="username" class="form-control">
+							</div>	
 							<div class="form-group col-md-3">
-								<label>Data di nascita</label>
-								<input type="date" class="form-control" name="dataNascita" id="dataNascita">
+								<label>Data di creazione dell'account</label> 
+								<input type="date" class="form-control" name="dateCreated" id="dateCreated">
 							</div>		
-							<div class="form-group col-md-3">
-								<label>Libro</label> 
-								<input type="text" class="form-control" name="libro" id="libro" placeholder="Inserisci il titolo di un suo libro">
-							</div>		
-
+							<div class="form-group col-md-6">
+								<label>Ruolo nel sito</label>
+								<input type="text" name="ruoli" id="ruoli" class="form-control">
+							</div>
 						</div>
 	
 							
@@ -71,7 +75,7 @@
 	
 	<!-- end container -->	
 	</main>
-	<jsp:include page="../generali/footer.jsp" />
+	<jsp:include page="${pageContext.request.contextPath}/jsp/generali/footer.jsp" />
 	
 </body>
 </html>

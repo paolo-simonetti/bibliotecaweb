@@ -101,8 +101,8 @@ public class AutoreDAOImpl implements AutoreDAO {
 		Quindi, se negli input di ricerca c'è anche la data, costruisco il pezzo di query ad esso relativo e lo concateno al precedente;
 		altrimenti, devo togliere quell'AND:  */
 		if (input.get("dataNascita")!=null) {
-			String pezzoQueryPrezzo="a.dataNascita = "+"'"+input.get("dataNascita").stream().reduce("",(s,t)->s+t)+"'"; //input è una mappa a valori TreeSet
-			query+=pezzoQueryPrezzo;
+			String pezzoQueryData="a.dataNascita = "+"'"+input.get("dataNascita").stream().reduce("",(s,t)->s+t)+"'"; //input è una mappa a valori TreeSet
+			query+=pezzoQueryData;
 		} else {
 			query=query.substring(0,query.length()-"AND ".length());
 		}
