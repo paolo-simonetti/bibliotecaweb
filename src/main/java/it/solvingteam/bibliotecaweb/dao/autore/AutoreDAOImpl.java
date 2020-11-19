@@ -79,9 +79,9 @@ public class AutoreDAOImpl implements AutoreDAO {
 		String query=null;
 		// Se il titolo del libro non è stato messo in input, non c'è bisogno di fare una join 
 		if (input.get("titolo")==null) {
-			query="select a from Autore a where ";
+			query="select distinct a from Autore a where ";
 		} else {
-			query="select a from Autore a join fetch a.libriScritti l where ";
+			query="select distinct a from Autore a join fetch a.libriScritti l where ";
 		}
 		Set<String> campiDiRicerca= input.keySet();
 		for (String campo:campiDiRicerca) {

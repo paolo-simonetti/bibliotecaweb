@@ -82,28 +82,36 @@ public class Autore implements Comparable<Autore> {
 		this.dataNascita = dataNascita;
 	}
 	
-	public boolean equals(Autore autore) throws Exception {
-		/*Controllo se nella lista di libri scritti dai due autori ce n'è almeno uno in comune
-		 * Non uso equals per la lista di libri, altrimenti lo fa sulla base dell'indirizzo di memoria.
-		 * Non faccio l'uguaglianza su tutta la lista di libri, non è necessaria */
-		if (autore.getLibriScritti().size()==0) {
-			return (nomeAutore.equals(autore.getNomeAutore())&&cognomeAutore.equals(autore.getCognomeAutore())&&
-					dataNascita.isEqual(autore.getDataNascita()));
-		} else {
-			try {
-				boolean libroInComuneIsPresente=false;
-				for(Libro libro:libriScritti) {
-					for (Libro libroAutore:autore.getLibriScritti()) {
-						libroInComuneIsPresente=(libro.equals(libroAutore));					
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Autore) {
+			Autore autore=(Autore) o;
+			/*Controllo se nella lista di libri scritti dai due autori ce n'è almeno uno in comune
+			 * Non uso equals per la lista di libri, altrimenti lo fa sulla base dell'indirizzo di memoria.
+			 * Non faccio l'uguaglianza su tutta la lista di libri, non è necessaria */
+			if (autore.getLibriScritti().size()==0) {
+				return (nomeAutore.equals(autore.getNomeAutore())&&cognomeAutore.equals(autore.getCognomeAutore())&&
+						dataNascita.isEqual(autore.getDataNascita()));
+			} else {
+				try {
+					boolean libroInComuneIsPresente=false;
+					for(Libro libro:libriScritti) {
+						for (Libro libroAutore:autore.getLibriScritti()) {
+							libroInComuneIsPresente=(libro.equals(libroAutore));					
+						}
+						if(libroInComuneIsPresente) {
+							return true;
+						}
 					}
-					if(libroInComuneIsPresente) {
-						return true;
-					}
+					return false;
+				} catch(Exception e) {
+					System.err.println("Errore nel confronto con "+ autore+ ": uno dei libri non ha ISBN");
+					return false;
 				}
-				return false;
-			} catch(Exception e) {
-				throw new Exception("Errore nel confronto con "+ autore+ ": uno dei libri non ha ISBN"); 
 			}
+
+		} else {
+			return o.equals(this);
 		}
 		
 	}

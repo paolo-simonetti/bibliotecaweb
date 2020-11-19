@@ -43,15 +43,16 @@
 		        <h5>Lista dei risultati</h5> 
 		    </div>
 		    <div class='card-body'>
-		    	<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
+			  <c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
 				<form method="post" action="${pageContext.request.contextPath}/accessoEffettuato/inserimento/autore/PrepareInsertAutoreServlet" novalidate="novalidate">
 		    	  <div class="form-group col-md-6">
 					<label></label>
-					<input type="hidden" name="risultatoRicercaAutore" id="risultatoRicercaAutore" value="${requestScope.risultatoRicercaAutore}" class="form-control">
+					<input type="hidden" name="risultatoRicercaAutore" id="risultatoRicercaAutore" value="${requestScope.idAutoriRisultanti}" class="form-control">
 				  </div>
-				<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Inserisci nuovo</button>
+				  <button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Inserisci nuovo</button>
 				</form>
-		    	</c:if>
+		      </c:if>
+				
 		    
 		        <div class='table-responsive'>
 		            <table class='table table-striped ' >
@@ -66,9 +67,7 @@
 		                    </tr>
 		                </thead>
 		                <tbody>
-		          
-		               
-		                  	<c:forEach items="${requestScope.elencoAutori}" var="item">
+		                  	<c:forEach items="${requestScope.risultatoRicercaAutore}" var="item">
 		                	  <tr >
 		                        <td><c:out value="${item.idAutore}"></c:out></td>
 		                        <td><c:out value="${item.nomeAutore}"></c:out></td>

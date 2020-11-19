@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -67,6 +68,8 @@ public class ExecuteRicercaAutoriServlet extends HttpServlet {
 		try {
 			Set<Autore> autoriRisultanti=MyServiceFactory.getAutoreServiceInstance().trovaTuttiTramiteAttributiELibro(mappaCampoToValore);
 			request.setAttribute("elencoAutori",autoriRisultanti);
+			// Il seguente attributo mi serve per portare in giro più facilmente la lista degli autori risultanti, e ricostruire la stessa entità Autore
+			request.setAttribute("risultatoRicercaAutore",autoriRisultanti.stream().map(autore->autore.getIdAutore()).collect(Collectors.toSet()));
 			request.setAttribute("successMessage","Ricerca eseguita con successo");
 			request.getServletContext().getRequestDispatcher("/jsp/ricerca/risultatiAutore.jsp").forward(request,response);
 		} catch (Exception e) {

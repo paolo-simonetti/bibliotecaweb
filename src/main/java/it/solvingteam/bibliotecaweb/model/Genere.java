@@ -6,6 +6,7 @@ import java.util.TreeMap;
 public enum Genere {
 	
 	NON_SPECIFICATO(""),
+	ECONOMIA("economia"),
 	STORICO("storico"),
 	NARRATIVA("narrativa"),
 	ROSA("rosa"),
@@ -79,6 +80,7 @@ public enum Genere {
 	static {
 		
 		conversioneGenere.put("",NON_SPECIFICATO);
+		conversioneGenere.put("economia",ECONOMIA);
 		conversioneGenere.put("classici", CLASSICI);
 		conversioneGenere.put("storico",STORICO);
 		conversioneGenere.put("narrativa",NARRATIVA);

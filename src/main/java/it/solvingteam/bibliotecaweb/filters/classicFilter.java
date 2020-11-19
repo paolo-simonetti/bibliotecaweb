@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-@WebFilter(filterName="/classicFilter", value="/accessoEffettuato/inserimento/*,/accessoEffettuato/aggiornamento/*,/accessoEffettuato/eliminazione/*")
+@WebFilter(filterName="/classicFilter", urlPatterns={"/accessoEffettuato/inserimento/*","/accessoEffettuato/aggiornamento/*","/accessoEffettuato/eliminazione/*"})
 public class classicFilter implements Filter {
 
     public classicFilter() {
@@ -23,7 +23,7 @@ public class classicFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest servletRequest=(HttpServletRequest) request;
 		HttpSession session=servletRequest.getSession();
-		if (session.getAttribute("utenteIdentificato")==null||!session.getAttribute("hasClassicRole").equals("true")) {
+		if (session.getAttribute("hasAdminRole").equals("false")&&session.getAttribute("hasClassicRole").equals("false")) {
 			session.invalidate();
 			request.setAttribute("permessiMancantiMessage","Non hai i permessi per effettuare questa operazione!");
 			request.getServletContext().getRequestDispatcher("/jsp/generali/welcome.jsp").forward(request,response);

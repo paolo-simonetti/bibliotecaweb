@@ -27,6 +27,16 @@ public class WebUtils {
 		}
 		return false;
 	}
+	
+	public static boolean almenoUnInputVuoto(String... listaInput) {
+		for (String s:listaInput) {
+			if(s==null||s.isEmpty()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 
 	public static TreeSet<String> splittaInputSeNonVuoto(String input) {
 		if (input!=null&&!input.isEmpty()) {

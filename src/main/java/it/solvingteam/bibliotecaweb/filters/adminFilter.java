@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-@WebFilter(filterName="/adminFilter", value="/accessoEffettuato/inserimento/inserimentoUtente,/accessoEffettuato/aggiornamento/aggiornamentoUtente,/accessoEffettuato/eliminazione/eliminazioneUtente,/accessoEffettuato/ricerca/ricercaUtente")
+@WebFilter(filterName="/adminFilter", urlPatterns={"/accessoEffettuato/inserimento/utente/*","/accessoEffettuato/aggiornamento/utente/*","/accessoEffettuato/eliminazione/utente/*","/accessoEffettuato/ricerca/utente/*"})
 public class adminFilter implements Filter {
 
     public adminFilter() {
@@ -23,10 +23,10 @@ public class adminFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest servletRequest=(HttpServletRequest) request;
 		HttpSession session=servletRequest.getSession();
-		if (session.getAttribute("utenteIdentificato")==null||!session.getAttribute("hasAdminRole").equals("true")) {
+		if (session.getAttribute("hasAdminRole").equals("false")) {
 			session.invalidate();
 			request.setAttribute("permessiMancantiMessage","Non hai i permessi per effettuare questa operazione!");
-			request.getServletContext().getRequestDispatcher("jsp/generali/welcome.jsp").forward(request,response);
+			request.getServletContext().getRequestDispatcher("/jsp/generali/welcome.jsp").forward(request,response);
 			return;
 		}
 		chain.doFilter(request, response);
