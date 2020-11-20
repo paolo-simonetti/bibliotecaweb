@@ -26,6 +26,7 @@ public class PrepareRicercaUtentiServlet extends HttpServlet {
 			e.printStackTrace();
 			request.setAttribute("errorMessage","Errore nella ricerca dei ruoli presenti");
 			request.getServletContext().getRequestDispatcher("/jsp/generali/menu.jsp");
+			return;
 		}
 		request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaUtente/ricercaUtente.jsp").forward(request, response);
 	}

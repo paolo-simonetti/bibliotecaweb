@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import it.solvingteam.bibliotecaweb.model.Autore;
 import it.solvingteam.bibliotecaweb.model.Utente;
 import it.solvingteam.bibliotecaweb.service.MyServiceFactory;
 import it.solvingteam.bibliotecaweb.utils.WebUtils;
@@ -43,11 +42,12 @@ public class ExecuteRicercaUtentiServlet extends HttpServlet {
 				request.setAttribute("elencoUtenti",MyServiceFactory.getUtenteServiceInstance().elenca());
 				request.setAttribute("successMessage","Ricerca eseguita con successo");
 				request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaUtente/risultatiUtente.jsp").forward(request,response);
+				return;
 			} catch (Exception e) {
 				e.printStackTrace();
 				request.setAttribute("errorMessage","Errore nel recupero degli utenti richiesti");
 				request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaUtente/ricercaUtente.jsp").forward(request,response);
-
+				return;
 			}
 		}
 		
@@ -58,6 +58,7 @@ public class ExecuteRicercaUtentiServlet extends HttpServlet {
 			} catch(Exception e) {
 				request.setAttribute("errorMessage", "Dati inseriti non validi");
 				request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaUtente/ricercaUtente.jsp").forward(request,response);
+				return;
 			}
 			
 		} 
@@ -78,11 +79,12 @@ public class ExecuteRicercaUtentiServlet extends HttpServlet {
 			request.setAttribute("elencoUtenti",utentiRisultanti);
 			request.setAttribute("successMessage","Ricerca eseguita con successo");
 			request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaUtente/risultatiUtente.jsp").forward(request,response);
+			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("errorMessage","Errore nel recupero degli autori richiesti");
 			request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaUtente/ricercaUtente.jsp").forward(request,response);
-
+			return;
 		}
 
 

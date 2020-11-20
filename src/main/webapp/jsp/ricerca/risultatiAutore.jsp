@@ -66,7 +66,7 @@
 		                    </tr>
 		                </thead>
 		                <tbody>
-		          
+	                       				          
 		               
 		                  	<c:forEach items="${requestScope.elencoAutori}" var="item">
 		                	  <tr >
@@ -77,9 +77,17 @@
 		                     
 		                         <td>
 									<a class="btn  btn-sm btn-outline-secondary" 
-									  href="${pageContext.request.contextPath}/accessoEffettuato/visualizzazione/VisualizzazioneAutoreServlet?idAutoreDaVisualizzare=${item.idAutore}&paginaDiProvenienza=risultatiAutore">Visualizza autore</a>
-									<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}"><a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateArticoloDaListaServlet?idArticoloDaAggiornare=${item.idAutore}">Edit</a></c:if>
-									<c:if test="${sessionScope.hasAdminRole eq 'true'}"><a class="btn btn-outline-danger btn-sm" href="PrepareDeleteArticoloDaListaServlet?idArticoloDaEliminare=${item.idAutore}">Delete</a></c:if>
+									  href="${pageContext.request.contextPath}/accessoEffettuato/visualizzazione/autore/VisualizzazioneAutoreServlet?${requestScope.risultatoRicercaAutorePerGet}idAutoreDaVisualizzare=${item.idAutore}&paginaDiProvenienza=risultatiAutore">Visualizza autore
+									</a>
+									<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
+									  <a class="btn  btn-sm btn-outline-primary ml-2 mr-2" 
+									    href="${pageContext.request.contextPath}/accessoEffettuato/aggiornamento/autore/PrepareUpdateAutoreServlet?${risultatoRicercaAutorePerGet}idAutoreDaAggiornare=${item.idAutore}&paginaDiProvenienza=risultatiAutore">Edit
+									  </a>
+									</c:if>
+									<c:if test="${sessionScope.hasAdminRole eq 'true'}">
+									  <a class="btn btn-outline-danger btn-sm" 
+									    href="${pageContext.request.contextPath}/accessoEffettuato/eliminazione/autore/PrepareDeleteAutoreServlet?${risultatoRicercaAutorePerGet}idAutoreDaEliminare=${item.idAutore}&paginaDiProvenienza=risultatiAutore">Delete</a>
+									</c:if>
 								</td>
 		                      </tr>
 		                	</c:forEach>		                   

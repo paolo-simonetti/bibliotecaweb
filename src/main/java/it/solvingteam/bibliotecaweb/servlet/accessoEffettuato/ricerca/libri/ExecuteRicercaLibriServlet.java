@@ -42,11 +42,12 @@ public class ExecuteRicercaLibriServlet extends HttpServlet {
 				request.setAttribute("elencoLibri",MyServiceFactory.getLibroServiceInstance().elenca());
 				request.setAttribute("successMessage","Ricerca eseguita con successo");
 				request.getServletContext().getRequestDispatcher("/jsp/ricerca/risultatiLibro.jsp").forward(request,response);
+				return;
 			} catch (Exception e) {
 				e.printStackTrace();
 				request.setAttribute("errorMessage","Errore nel recupero dei libri richiesti");
 				request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaLibro.jsp").forward(request,response);
-
+				return;
 			}
 		}
 		
@@ -58,6 +59,7 @@ public class ExecuteRicercaLibriServlet extends HttpServlet {
 				e.printStackTrace();
 				request.setAttribute("errorMessage","ISBN non valido");
 				request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaLibro.jsp").forward(request,response);
+				return;
 			}
 		}
 
@@ -76,11 +78,12 @@ public class ExecuteRicercaLibriServlet extends HttpServlet {
 			request.setAttribute("elencoLibri",libriRisultanti);
 			request.setAttribute("successMessage","Ricerca eseguita con successo");
 			request.getServletContext().getRequestDispatcher("/jsp/ricerca/risultatiLibro.jsp").forward(request,response);
+			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("errorMessage","Errore nel recupero dei libri richiesti");
 			request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaLibro.jsp").forward(request,response);
-
+			return;
 		}
 
 		

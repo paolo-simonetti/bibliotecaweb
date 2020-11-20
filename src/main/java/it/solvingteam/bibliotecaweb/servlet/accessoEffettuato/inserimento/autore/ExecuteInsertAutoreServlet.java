@@ -2,8 +2,6 @@ package it.solvingteam.bibliotecaweb.servlet.accessoEffettuato.inserimento.autor
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
@@ -45,6 +43,7 @@ public class ExecuteInsertAutoreServlet extends HttpServlet {
 			request.setAttribute("risultatoRicercaAutore",request.getParameter("risultatoRicercaAutore"));
 			request.setAttribute("errorMessage","Inserimento fallito: inserire tutti i campi indicati come obbligatori");
 			request.getServletContext().getRequestDispatcher("/jsp/inserimento/inserimentoAutore.jsp").forward(request,response);
+			return;
 		} 
 		LocalDate dataNascita=null;
 		try {
@@ -56,6 +55,7 @@ public class ExecuteInsertAutoreServlet extends HttpServlet {
 			request.setAttribute("errorMessage","Inserimento fallito: dati inseriti non validi");
 			request.setAttribute("listaGeneri",Genere.conversioneGenere.keySet());
 			request.getServletContext().getRequestDispatcher("/jsp/inserimento/inserimentoAutore.jsp").forward(request,response);
+			return;
 		}
 		
 		// Mi occupo delle operazioni di business
@@ -76,26 +76,14 @@ public class ExecuteInsertAutoreServlet extends HttpServlet {
 			request.setAttribute("listaGeneri",Genere.conversioneGenere.keySet());
 			request.setAttribute("errorMessage","Inserimento fallito: errore nella registrazione dell'autore o del libro");
 			request.getServletContext().getRequestDispatcher("/jsp/inserimento/inserimentoAutore.jsp").forward(request,response);
+			return;
 		}
 		
 		if (riuscitoInserimentoAutore&&riuscitoInserimentoLibro) {
 			request.setAttribute("successMessage","Operazione effettuata con successo");
 			try {
 				String risultatoStringaRicercaAutore= request.getParameter("risultatoRicercaAutore");
-				/* risultatoRicercaAutore è una stringa con gli id degli autori, del tipo:
-				 * [22, 23, 24]
-				 * Devo togliere le parentesi quadre iniziale e finale, splittare rispetto a ", " e fare il parseLong del risultato */
-				risultatoStringaRicercaAutore=risultatoStringaRicercaAutore.substring(1,risultatoStringaRicercaAutore.length()-1); 
-				String[] idStringaAutoriRisultanti=risultatoStringaRicercaAutore.split(", ");
-				for (String s:idStringaAutoriRisultanti) {
-					System.out.println(s);
-				}
-				Set<Long> idAutoriRisultanti=Arrays.asList(idStringaAutoriRisultanti).stream()
-						.map(idStringa->Long.parseLong(idStringa)).collect(Collectors.toSet());
-				Set<Autore> risultatoRicercaAutore=new TreeSet<>();
-				for (Long id:idAutoriRisultanti) {
-					risultatoRicercaAutore.add(MyServiceFactory.getAutoreServiceInstance().caricaSingoloElemento(id));
-				}
+				TreeSet<Autore> risultatoRicercaAutore=WebUtils.ricostruisciTreeSetDaStringaRisultati(risultatoStringaRicercaAutore);
 				risultatoRicercaAutore.add(nuovoAutore);
 				request.setAttribute("risultatoRicercaAutore",risultatoRicercaAutore);
 				request.setAttribute("idAutoriRisultanti",risultatoRicercaAutore.stream().map(autore->autore.getIdAutore()).collect(Collectors.toSet()));
@@ -105,6 +93,7 @@ public class ExecuteInsertAutoreServlet extends HttpServlet {
 				request.setAttribute("listaGeneri",Genere.conversioneGenere.keySet());
 				request.setAttribute("alertMessage","Attenzione: l'inserimento è andato a buon fine, ma si è verificato un errore nell'elencazione dei risultati");
 				request.getServletContext().getRequestDispatcher("/jsp/inserimento/inserimentoAutore.jsp").forward(request,response);
+				return;
 			}
 			request.getServletContext().getRequestDispatcher("/jsp/inserimento/risultatiInserimentoAutore.jsp").forward(request,response);
 		}
