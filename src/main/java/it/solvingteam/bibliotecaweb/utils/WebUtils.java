@@ -95,5 +95,15 @@ public class WebUtils {
 		return risultatoRicercaAutore;
 	}
 	
+	public static String ricostruisciPathRelativoDellaPaginaDiProvenienza(String nomeFileSenzaEstensione) {
+		switch(nomeFileSenzaEstensione) {
+			case "risultatiAutore" : return "/jsp/ricerca/risultatiAutore.jsp";
+			case "risultatiInserimentoAutore" : return "/jsp/inserimento/risultatiInserimentoAutore.jsp";
+			case "risultatiAggiornamentoAutore" : return "/jsp/aggiornamento/risultatiAggiornamentoAutore.jsp";
+			case "risultatiEliminazioneAutore" : return "/jsp/eliminazione/risultatiEliminazioneAutore.jsp";
+			default : return "/jsp/generali/welcome.jsp"; 
+		}
+	}
+	
 	
 }

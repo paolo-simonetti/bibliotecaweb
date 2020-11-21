@@ -81,12 +81,12 @@
 									</a>
 									<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
 									  <a class="btn  btn-sm btn-outline-primary ml-2 mr-2" 
-									    href="${pageContext.request.contextPath}/accessoEffettuato/aggiornamento/autore/PrepareUpdateAutoreServlet?${risultatoRicercaAutorePerGet}idAutoreDaAggiornare=${item.idAutore}&paginaDiProvenienza=risultatiAutore">Edit
+									    href="${pageContext.request.contextPath}/accessoEffettuato/aggiornamento/autore/PrepareUpdateAutoreServlet?${requestScope.risultatoRicercaAutorePerGet}idAutoreDaAggiornare=${item.idAutore}&paginaDiProvenienza=risultatiAutore">Edit
 									  </a>
 									</c:if>
 									<c:if test="${sessionScope.hasAdminRole eq 'true'}">
 									  <a class="btn btn-outline-danger btn-sm" 
-									    href="${pageContext.request.contextPath}/accessoEffettuato/eliminazione/autore/PrepareDeleteAutoreServlet?${risultatoRicercaAutorePerGet}idAutoreDaEliminare=${item.idAutore}&paginaDiProvenienza=risultatiAutore">Delete</a>
+									    href="${pageContext.request.contextPath}/accessoEffettuato/eliminazione/autore/PrepareDeleteAutoreServlet?${requestScope.risultatoRicercaAutorePerGet}idAutoreDaEliminare=${item.idAutore}&paginaDiProvenienza=risultatiAutore">Delete</a>
 									</c:if>
 								</td>
 		                      </tr>

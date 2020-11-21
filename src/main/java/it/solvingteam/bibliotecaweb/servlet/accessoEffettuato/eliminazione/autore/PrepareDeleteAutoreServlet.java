@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import it.solvingteam.bibliotecaweb.service.MyServiceFactory;
-
 @WebServlet("/accessoEffettuato/eliminazione/autore/PrepareDeleteAutoreServlet")
 public class PrepareDeleteAutoreServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -23,15 +21,17 @@ public class PrepareDeleteAutoreServlet extends HttpServlet {
 		try {
 			// Palleggio subito la lista risultato della ricerca originaria
 			String[] risultatoRicercaAutore=request.getParameterValues("risultatoRicercaAutorePerGet");
-			String stringaRisultatoRicercaAutore="[";
+			String stringaRisultatoRicercaAutore="";
 			for (String s: risultatoRicercaAutore) {
-				stringaRisultatoRicercaAutore+=s+", ";
+				stringaRisultatoRicercaAutore+="risultatoRicercaAutore="+s+"&";
 			}
-			stringaRisultatoRicercaAutore+="]";
 			request.setAttribute("risultatoRicercaAutore",stringaRisultatoRicercaAutore);
 			idAutore=Long.parseLong(request.getParameter("idAutoreDaEliminare"));
 			request.setAttribute("idAutoreDaEliminare",idAutore);
+			//Questo attributo mi serve nel caso in cui l'utente decida di non confermare l'eliminazione
+			request.setAttribute("paginaDiProvenienza",request.getParameter("paginaDiProvenienza"));
 			request.getServletContext().getRequestDispatcher("/jsp/eliminazione/eliminazioneAutore.jsp").forward(request,response);
+			return;
 		} catch(Exception e) {
 			e.printStackTrace();
 			request.setAttribute("errorMessage","Errore nell'eliminazione dell'autore: hai provato a inserire a mano l'id dell'autore");

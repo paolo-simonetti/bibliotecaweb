@@ -8,8 +8,11 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 
 import it.solvingteam.bibliotecaweb.dao.EntityManagerUtil;
+import it.solvingteam.bibliotecaweb.dao.MyDAOFactory;
 import it.solvingteam.bibliotecaweb.dao.autore.AutoreDAO;
+import it.solvingteam.bibliotecaweb.dao.libro.LibroDAO;
 import it.solvingteam.bibliotecaweb.model.Autore;
+import it.solvingteam.bibliotecaweb.model.Libro;
 
 public class AutoreServiceImpl implements AutoreService {
 
@@ -144,13 +147,25 @@ public class AutoreServiceImpl implements AutoreService {
 			// Se l'autore ha più di un libro, impedisco la rimozione (voglio rimuovere tutti i libri uno a uno). Permetto la rimozione solo
 			// se è rimasto un solo libro
 			
-			if(autoreInstance.getLibriScritti().size()>1) {
+			if(autoreDAO.getWithLibri(autoreInstance.getIdAutore()).getLibriScritti().size()>1) {
 				throw new Exception("Rimozione fallita: nella biblioteca è presente più di un suo libro");
 			}
 			
-			boolean esito=autoreDAO.delete(autoreInstance);
+			//Salvo il libro da rimuovere dal db
+			Libro libroDaRimuovere=autoreDAO.getWithLibri(autoreInstance.getIdAutore()).getLibriScritti().stream().findFirst().orElse(null);
+			
+			/* Per rimuovere effettivamente l'autore, a questo punto, devo dissociare l'autore dal libro che ha scritto, in modo da non 
+			incappare in una ConstraintViolationException generata dal DB*/
+			
+			autoreDAO.getWithLibri(autoreInstance.getIdAutore()).setLibriScritti(null);	
+			boolean esitoAutore=autoreDAO.delete(autoreInstance);
+			//Elimino anche il libro dal db
+			LibroDAO libroDAO=MyDAOFactory.getLibroDAOInstance();
+			libroDAO.setEntityManager(entityManager);
+			boolean esitoLibro=libroDAO.delete(libroDaRimuovere);
+			
 			entityManager.getTransaction().commit();
-			return esito;
+			return esitoAutore&esitoLibro;
 
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
