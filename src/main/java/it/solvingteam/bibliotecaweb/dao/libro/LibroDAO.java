@@ -9,4 +9,5 @@ import it.solvingteam.bibliotecaweb.model.Libro;
 
 public interface LibroDAO extends IBaseDAO<Libro> {
 	public Set<Libro> findAllByExampleAndAutore(TreeMap<String,TreeSet<String>> input) throws Exception;
+	public Libro getWithAutore(Long idLibro) throws Exception;
 }

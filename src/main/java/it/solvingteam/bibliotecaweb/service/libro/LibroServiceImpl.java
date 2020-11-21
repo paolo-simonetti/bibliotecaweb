@@ -184,4 +184,22 @@ public class LibroServiceImpl implements LibroService {
 
 	}
 
+	@Override
+	public Libro caricaSingoloElementoConAutore(Long idLibro) throws Exception {
+
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+		
+			libroDAO.setEntityManager(entityManager);
+			return libroDAO.getWithAutore(idLibro);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			entityManager.close();
+		}
+
+	}
+
 }

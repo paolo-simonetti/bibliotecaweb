@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import it.solvingteam.bibliotecaweb.model.Autore;
 import it.solvingteam.bibliotecaweb.service.MyServiceFactory;
+import it.solvingteam.bibliotecaweb.utils.WebUtilsFactory;
 
 @WebServlet("/accessoEffettuato/visualizzazione/autore/VisualizzazioneAutoreServlet")
 public class VisualizzazioneAutoreServlet extends HttpServlet {
@@ -20,6 +21,8 @@ public class VisualizzazioneAutoreServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// Prendo l'id dell'autore da visualizzare e lo valido
 		Long idAutore=null;
 		try {
 			idAutore=Long.parseLong(request.getParameter("idAutoreDaVisualizzare"));
@@ -31,6 +34,8 @@ public class VisualizzazioneAutoreServlet extends HttpServlet {
 			request.getServletContext().getRequestDispatcher("/jsp/generali/welcome.jsp").forward(request,response);
 			return;
 		}
+		
+		// Recupero dal db l'oggetto Autore corrispondente all'id, e lo passo alla jsp di visualizzazione 
 		try {
 			Autore autore=MyServiceFactory.getAutoreServiceInstance().caricaSingoloElementoConLibri(idAutore);
 			
@@ -46,19 +51,9 @@ public class VisualizzazioneAutoreServlet extends HttpServlet {
 			e.printStackTrace();
 			request.setAttribute("errorMessage", "Errore nel recupero dell'autore richiesto");
 			// Se la visualizzazione è fallita, torno alla pagina di provenienza
-			if (request.getParameter("paginaDiProvenienza").equals("risultatiAutore")) {
-				request.getServletContext().getRequestDispatcher("/jsp/ricerca/risultatiAutore.jsp").forward(request,response);
-			} else if(request.getParameter("paginaDiProvenienza").equals("risultatiInserimentoAutore")) {
-				request.getServletContext().getRequestDispatcher("/jsp/inserimento/risultatiInserimentoAutore.jsp").forward(request,response);
-			} else if(request.getParameter("paginaDiProvenienza").equals("risultatiAggiornamentoAutore")) {
-				request.getServletContext().getRequestDispatcher("/jsp/aggiornamento/risultatiAggiornamentoAutore.jsp").forward(request,response);
-			} else {
-				request.setAttribute("errorMessage","Errore nel recupero della pagina di provenienza");
-				HttpSession session=request.getSession();
-				session.invalidate();
-				request.getServletContext().getRequestDispatcher("/jsp/generali/welcome.jsp").forward(request,response);
-			}
-
+			String paginaDiProvenienza=WebUtilsFactory.getWebUtilsAutoreInstance()
+					.ricostruisciPathRelativoDellaPaginaDiProvenienza(request.getParameter("paginaDiProvenienza"), request);
+			request.getServletContext().getRequestDispatcher(paginaDiProvenienza).forward(request,response);
 		}
 	}
 

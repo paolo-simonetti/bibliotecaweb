@@ -120,4 +120,18 @@ public class LibroDAOImpl implements LibroDAO {
 		return libriResult;
 	}
 
+	@Override
+	public Libro getWithAutore(Long idLibro) throws Exception {
+		Libro libroResult=null;
+		String query="select l from Libro l join fetch l.autoreDelLibro a where l.idLibro="+idLibro;
+		try {
+			libroResult=entityManager.createQuery(query,Libro.class).getResultList().stream().findFirst().orElse(null);
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.err.println("Errore nel recupero del libro richiesto");
+			throw e;
+		}
+		return libroResult;
+	}
+
 }

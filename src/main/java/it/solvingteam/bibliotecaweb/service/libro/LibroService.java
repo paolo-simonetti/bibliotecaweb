@@ -12,4 +12,6 @@ public interface LibroService extends IBaseService<Libro> {
 	public void setLibroDAO(LibroDAO libroDAO);
 	
 	public Set<Libro> trovaTuttiTramiteAttributiEAutore(TreeMap<String,TreeSet<String>> input) throws Exception;
+	public Libro caricaSingoloElementoConAutore(Long idLibro) throws Exception;
+	
 }
