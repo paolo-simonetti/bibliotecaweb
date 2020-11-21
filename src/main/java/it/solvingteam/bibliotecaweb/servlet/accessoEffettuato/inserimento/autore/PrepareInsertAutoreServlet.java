@@ -19,6 +19,9 @@ public class PrepareInsertAutoreServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Questi due attributi mi servono nel caso in cui io provenga dalla pagina di inserimento del libro
+		request.setAttribute("risultatoRicercaLibro", request.getParameter("risultatoRicercaLibro"));
+		request.setAttribute("paginaDiProvenienza", request.getParameter("paginaDiProvenienza"));
 		request.setAttribute("risultatoRicercaAutore",request.getParameter("risultatoRicercaAutore"));
 		request.setAttribute("listaGeneri",Genere.conversioneGenere.keySet());
 		request.getServletContext().getRequestDispatcher("/jsp/inserimento/inserimentoAutore.jsp").forward(request,response);

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.solvingteam.bibliotecaweb.model.Autore;
-import it.solvingteam.bibliotecaweb.utils.WebUtils;
+import it.solvingteam.bibliotecaweb.utils.WebUtilsFactory;
 
 @WebServlet("/accessoEffettuato/eliminazione/autore/EliminazioneNonConfermataServlet")
 public class EliminazioneNonConfermataServlet extends HttpServlet {
@@ -29,10 +29,10 @@ public class EliminazioneNonConfermataServlet extends HttpServlet {
 		}
 		stringaRisultatoRicercaAutore+="]";
 		String paginaDiProvenienza=request.getParameter("paginaDiProvenienza");	
-		paginaDiProvenienza=WebUtils.ricostruisciPathRelativoDellaPaginaDiProvenienza(paginaDiProvenienza);
+		paginaDiProvenienza=WebUtilsFactory.getWebUtilsAutoreInstance().ricostruisciPathRelativoDellaPaginaDiProvenienza(paginaDiProvenienza,request);
 		Set<Autore> risultatoRicercaAutore=new TreeSet<>();
 		try {
-			risultatoRicercaAutore=WebUtils.ricostruisciTreeSetDaStringaRisultati(stringaRisultatoRicercaAutore);			
+			risultatoRicercaAutore=WebUtilsFactory.getWebUtilsAutoreInstance().ricostruisciTreeSetDaStringaRisultati(stringaRisultatoRicercaAutore);			
 		} catch(Exception e) {
 			e.printStackTrace();
 			request.setAttribute("errorMessage", "Errore nel recupero degli autori risultanti dalla ricerca precedente");

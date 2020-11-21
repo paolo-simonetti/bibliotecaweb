@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import it.solvingteam.bibliotecaweb.model.Libro;
 import it.solvingteam.bibliotecaweb.service.MyServiceFactory;
-import it.solvingteam.bibliotecaweb.utils.WebUtils;
+import it.solvingteam.bibliotecaweb.utils.WebUtilsFactory;
 
 @WebServlet("/accessoEffettuato/ricerca/libri/ExecuteRicercaLibriServlet")
 public class ExecuteRicercaLibriServlet extends HttpServlet {
@@ -36,7 +37,7 @@ public class ExecuteRicercaLibriServlet extends HttpServlet {
 		String cognomeAutoreInputParam=request.getParameter("cognomeAutore");
 
 		//Se tutti i campi di input sono vuoti, voglio tutti i libri presenti
-		if (!WebUtils.almenoUnInputNonVuoto(titoloInputParam,genereStringInputParam,tramaInputParam,ISBNStringInputParam,
+		if (!WebUtilsFactory.getWebUtilsLibroInstance().almenoUnInputNonVuoto(titoloInputParam,genereStringInputParam,tramaInputParam,ISBNStringInputParam,
 				nomeAutoreInputParam,cognomeAutoreInputParam)) {
 			try {
 				request.setAttribute("elencoLibri",MyServiceFactory.getLibroServiceInstance().elenca());
@@ -54,7 +55,7 @@ public class ExecuteRicercaLibriServlet extends HttpServlet {
 		//Valido gli input di ricerca
 		if(ISBNStringInputParam!=null &&!ISBNStringInputParam.isEmpty()) {
 			try {
-				WebUtils.validaISBN(ISBNStringInputParam);
+				WebUtilsFactory.getWebUtilsLibroInstance().validaISBN(ISBNStringInputParam);
 			} catch(Exception e) {
 				e.printStackTrace();
 				request.setAttribute("errorMessage","ISBN non valido");
@@ -67,14 +68,18 @@ public class ExecuteRicercaLibriServlet extends HttpServlet {
 		 * I campi diversi da genere e da ISBN vengono splittati nelle parole che li compongono */
 		TreeMap<String,TreeSet<String>> mappaCampoToValore=new TreeMap<>();
 		// Nella mappa, chiamo le chiavi con lo stesso nome degli attributi nel model, per far funzionare la query nel DAOImpl
-		mappaCampoToValore.put("titolo",WebUtils.splittaInputSeNonVuoto(titoloInputParam)); //il secondo parametro risulta null se l'input è vuoto
-		mappaCampoToValore.put("trama",WebUtils.splittaInputSeNonVuoto(tramaInputParam));
-		mappaCampoToValore.put("nomeAutore",WebUtils.splittaInputSeNonVuoto(nomeAutoreInputParam));
-		mappaCampoToValore.put("cognomeAutore",WebUtils.splittaInputSeNonVuoto(cognomeAutoreInputParam));
-		mappaCampoToValore.put("ISBN",WebUtils.generaTreeSetConElemento(ISBNStringInputParam));
-		mappaCampoToValore.put("genere",WebUtils.generaTreeSetConElemento(genereStringInputParam));
+		mappaCampoToValore.put("titolo",WebUtilsFactory.getWebUtilsLibroInstance().splittaInputSeNonVuoto(titoloInputParam)); //il secondo parametro risulta null se l'input è vuoto
+		mappaCampoToValore.put("trama",WebUtilsFactory.getWebUtilsLibroInstance().splittaInputSeNonVuoto(tramaInputParam));
+		mappaCampoToValore.put("nomeAutore",WebUtilsFactory.getWebUtilsLibroInstance().splittaInputSeNonVuoto(nomeAutoreInputParam));
+		mappaCampoToValore.put("cognomeAutore",WebUtilsFactory.getWebUtilsLibroInstance().splittaInputSeNonVuoto(cognomeAutoreInputParam));
+		mappaCampoToValore.put("ISBN",WebUtilsFactory.getWebUtilsLibroInstance().generaTreeSetConElemento(ISBNStringInputParam));
+		mappaCampoToValore.put("genere",WebUtilsFactory.getWebUtilsLibroInstance().generaTreeSetConElemento(genereStringInputParam));
 		try {
 			Set<Libro> libriRisultanti=MyServiceFactory.getLibroServiceInstance().trovaTuttiTramiteAttributiEAutore(mappaCampoToValore);
+			//Preparo l'attributo coi risultati della ricerca da palleggiare nelle servlet successive
+			Set<Long> idLibriRisultanti=libriRisultanti.stream().map(libro->libro.getIdLibro()).collect(Collectors.toSet());
+			request.setAttribute("risultatoRicercaLibro",idLibriRisultanti);
+			// Questo attributo mi serve per il for each sui risultati della ricerca
 			request.setAttribute("elencoLibri",libriRisultanti);
 			request.setAttribute("successMessage","Ricerca eseguita con successo");
 			request.getServletContext().getRequestDispatcher("/jsp/ricerca/risultatiLibro.jsp").forward(request,response);

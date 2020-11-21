@@ -109,11 +109,19 @@ public class Libro implements Comparable<Libro>{
 		return titolo.compareTo(libro.getTitolo());
 	}
 	
-	public boolean equals(Libro libro) throws Exception {
-		if (ISBN==null || ISBN.isEmpty() ||libro.getISBN()==null || libro.getISBN().isEmpty()) {
-			throw new Exception("Confronto fallito con "+libro+ ": uno dei due libri non ha l'ISBN");
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Libro) {
+			Libro libro=(Libro) o;
+			if (ISBN==null || ISBN.isEmpty() ||libro.getISBN()==null || libro.getISBN().isEmpty()) {
+				System.err.println("Confronto fallito con "+libro+ ": uno dei due libri non ha l'ISBN");
+				return false;
+			}
+			return (ISBN.equals(libro.getISBN()));
+
+		} else {
+			return o.equals(this);
 		}
-		return (ISBN.equals(libro.getISBN()));
 	}
 	
 }

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import it.solvingteam.bibliotecaweb.model.Autore;
 import it.solvingteam.bibliotecaweb.service.MyServiceFactory;
-import it.solvingteam.bibliotecaweb.utils.WebUtils;
+import it.solvingteam.bibliotecaweb.utils.WebUtilsFactory;
 
 @WebServlet("/accessoEffettuato/eliminazione/autore/ExecuteDeleteAutoreServlet")
 public class ExecuteDeleteAutoreServlet extends HttpServlet {
@@ -30,12 +30,12 @@ public class ExecuteDeleteAutoreServlet extends HttpServlet {
 			stringaRisultatoRicercaAutore+=idStringa+", ";
 		}
 		stringaRisultatoRicercaAutore+="]";
-		String paginaDiProvenienza=WebUtils.ricostruisciPathRelativoDellaPaginaDiProvenienza(request.getParameter("paginaDiProvenienza"));
+		String paginaDiProvenienza=WebUtilsFactory.getWebUtilsAutoreInstance().ricostruisciPathRelativoDellaPaginaDiProvenienza(request.getParameter("paginaDiProvenienza"),request);
 		String stringaIdAutoreDaEliminare=request.getParameter("idAutoreDaEliminare");
 		TreeSet<Autore> risultatoRicercaAutore=new TreeSet<>();
 		Long idAutoreDaEliminare=null;
 		try {
-			risultatoRicercaAutore=WebUtils.ricostruisciTreeSetDaStringaRisultati(stringaRisultatoRicercaAutore);
+			risultatoRicercaAutore=WebUtilsFactory.getWebUtilsAutoreInstance().ricostruisciTreeSetDaStringaRisultati(stringaRisultatoRicercaAutore);
 		} catch(Exception e) {
 			e.printStackTrace();
 			request.setAttribute("errorMessage","Errore nel recupero degli autori risultanti dalla ricerca precedente");

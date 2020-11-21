@@ -50,8 +50,15 @@ public class Ruolo implements Comparable<Ruolo> {
 		return descrizioneRuolo;
 	}
 	
-	public boolean equals(Ruolo ruoloInstance) {
-		return (nomeRuolo.toString().equals(ruoloInstance.getNomeRuolo().toString()));
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Ruolo) {
+			Ruolo ruoloInstance=(Ruolo) o;
+			return (nomeRuolo.toString().equals(ruoloInstance.getNomeRuolo().toString()));
+			
+		} else {
+			return o.equals(this);
+		}
 	}
 
 	public String toString() {

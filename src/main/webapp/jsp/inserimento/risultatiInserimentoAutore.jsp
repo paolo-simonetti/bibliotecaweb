@@ -79,8 +79,7 @@
 									  href="${pageContext.request.contextPath}/accessoEffettuato/visualizzazione/autore/VisualizzazioneAutoreServlet?idAutoreDaVisualizzare=${item.idAutore}&paginaDiProvenienza=risultatiInserimentoAutore">Visualizza autore</a>
 									<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
 									  <a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/accessoEffettuato/aggiornamento/autore/PrepareUpdateAutoreServlet?idAutoreDaAggiornare=${item.idAutore}&paginaDiProvenienza=risultatiInserimentoAutore">Edit</a>
-									 </c:if>
-									<c:if test="${sessionScope.hasAdminRole eq 'true'}">
+								
 									  <a class="btn btn-outline-danger btn-sm" href="PrepareDeleteArticoloDaListaServlet?idArticoloDaEliminare=${item.idAutore}">Delete</a>
 									</c:if>
 								</td>

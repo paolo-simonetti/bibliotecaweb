@@ -43,7 +43,16 @@
 		        <h5>Lista dei risultati</h5> 
 		    </div>
 		    <div class='card-body'>
-		    	<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}"><a class="btn btn-primary " href="PrepareInsertArticoloServlet">Inserisci nuovo</a></c:if>
+		    	<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
+				<form method="post" action="${pageContext.request.contextPath}/accessoEffettuato/inserimento/libro/PrepareInsertLibroServlet?paginaDiProvenienza=risultatiLibro" novalidate="novalidate">
+		    	  <div class="form-group col-md-6">
+					<label></label>
+					<input type="hidden" name="risultatoRicercaLibro" id="risultatoRicercaLibro" value="${requestScope.risultatoRicercaLibro}" class="form-control">
+				  </div>
+				<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Inserisci nuovo</button>
+				</form>
+		    	</c:if>
+
 		    
 		        <div class='table-responsive'>
 		            <table class='table table-striped ' >
@@ -66,10 +75,21 @@
 		                        <td><c:out value="${item.trama}"></c:out></td>
 		                        <td><c:out value="${item.ISBN}"></c:out></td>
 		                     
-		                         <td>
-									<a class="btn  btn-sm btn-outline-secondary" href="GetArticoloDaListaServlet?idArticoloDaVisualizzare=${item.idLibro}">Visualizza Libro</a>
-									<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}"><a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateArticoloDaListaServlet?idArticoloDaAggiornare=${item.idLibro}">Aggiorna</a></c:if>
-									<c:if test="${sessionScope.hasAdminRole eq 'true'}"><a class="btn btn-outline-danger btn-sm" href="PrepareDeleteArticoloDaListaServlet?idArticoloDaEliminare=${item.idLibro}">Elimina</a></c:if>
+	                         <td>
+									<a class="btn  btn-sm btn-outline-secondary" 
+									  href="${pageContext.request.contextPath}/accessoEffettuato/visualizzazione/libro/VisualizzazioneLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaVisualizzare=${item.idLibro}&paginaDiProvenienza=risultatiLibro">
+									  Visualizza libro
+									</a>
+									<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
+									  <a class="btn  btn-sm btn-outline-primary ml-2 mr-2" 
+									    href="${pageContext.request.contextPath}/accessoEffettuato/aggiornamento/libro/PrepareUpdateLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaAggiornare=${item.idLibro}&paginaDiProvenienza=risultatiLibro">
+									    Aggiorna libro
+									  </a>
+									  <a class="btn btn-outline-danger btn-sm" 
+									    href="${pageContext.request.contextPath}/accessoEffettuato/eliminazione/libro/PrepareDeleteLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaEliminare=${item.idLibro}&paginaDiProvenienza=risultatiLibro">
+									    Elimina libro
+									  </a>
+									</c:if>
 								</td>
 		                      </tr>
 		                	</c:forEach>		                   

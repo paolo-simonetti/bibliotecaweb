@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import it.solvingteam.bibliotecaweb.model.Autore;
 import it.solvingteam.bibliotecaweb.service.MyServiceFactory;
-import it.solvingteam.bibliotecaweb.utils.WebUtils;
+import it.solvingteam.bibliotecaweb.utils.WebUtilsFactory;
 
 @WebServlet("/accessoEffettuato/aggiornamento/autore/ExecuteUpdateAutoreServlet")
 public class ExecuteUpdateAutoreServlet extends HttpServlet {
@@ -56,7 +56,8 @@ public class ExecuteUpdateAutoreServlet extends HttpServlet {
 		request.setAttribute("autoreDaAggiornare",autoreDaAggiornare);
 
 		// Valido gli input
-		if (WebUtils.almenoUnInputVuoto(nomeAutoreInputParam,cognomeAutoreInputParam,dataNascitaStringInputParam)) {
+		if (WebUtilsFactory.getWebUtilsAutoreInstance()
+				.almenoUnInputVuoto(nomeAutoreInputParam,cognomeAutoreInputParam,dataNascitaStringInputParam)) {
 			// Continuo a palleggiare il risultato della ricerca e l'autore da aggiornare
 			request.setAttribute("risultatoRicercaAutore",request.getParameter("risultatoRicercaAutore"));
 			request.setAttribute("idAutoreDaAggiornare", request.getParameter("idAutoreDaAggiornare"));
@@ -66,7 +67,7 @@ public class ExecuteUpdateAutoreServlet extends HttpServlet {
 		} 	
 		LocalDate dataNascita=null;
 		try {
-			dataNascita=WebUtils.stringToLocalDate(dataNascitaStringInputParam);
+			dataNascita=WebUtilsFactory.getWebUtilsAutoreInstance().stringToLocalDate(dataNascitaStringInputParam);
 		} catch(Exception e) {
 			e.printStackTrace();
 			request.setAttribute("risultatoRicercaAutore",request.getParameter("risultatoRicercaAutore"));
@@ -86,7 +87,7 @@ public class ExecuteUpdateAutoreServlet extends HttpServlet {
 			if (esitoAggiornamento) {
 				/* Se l'aggiornamento è riuscito, devo sistemare la lista di autori risultanti dalla ricerca, sostituendo
 				l'autore "vecchio" con quello "nuovo". */
-				Set<Autore> risultatoRicercaAutore=WebUtils.ricostruisciTreeSetDaStringaRisultati(
+				Set<Autore> risultatoRicercaAutore=WebUtilsFactory.getWebUtilsAutoreInstance().ricostruisciTreeSetDaStringaRisultati(
 						request.getParameter("risultatoRicercaAutore"));
 				risultatoRicercaAutore.remove(autoreDaAggiornare);
 				Autore autoreAggiornato=MyServiceFactory.getAutoreServiceInstance().caricaSingoloElemento(autoreDaAggiornare.getIdAutore());

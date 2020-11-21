@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import it.solvingteam.bibliotecaweb.model.Utente;
 import it.solvingteam.bibliotecaweb.service.MyServiceFactory;
-import it.solvingteam.bibliotecaweb.utils.WebUtils;
+import it.solvingteam.bibliotecaweb.utils.WebUtilsFactory;
 
 @WebServlet("/accessoEffettuato/ricerca/utenti/ExecuteRicercaUtentiServlet")
 public class ExecuteRicercaUtentiServlet extends HttpServlet {
@@ -36,7 +36,7 @@ public class ExecuteRicercaUtentiServlet extends HttpServlet {
 		String descrizioneRuoloStringInputParam=request.getParameter("descrizioneRuolo");
 		
 		//Se tutti i campi di input sono vuoti, voglio tutti i libri presenti
-		if (!WebUtils.almenoUnInputNonVuoto(nomeUtenteInputParam,cognomeUtenteInputParam,usernameUtenteInputParam,dateCreatedStringInputParam,
+		if (!WebUtilsFactory.getWebUtilsAutoreInstance().almenoUnInputNonVuoto(nomeUtenteInputParam,cognomeUtenteInputParam,usernameUtenteInputParam,dateCreatedStringInputParam,
 				statoUtenteStringInputParam,descrizioneRuoloStringInputParam)) {
 			try {
 				request.setAttribute("elencoUtenti",MyServiceFactory.getUtenteServiceInstance().elenca());
@@ -54,7 +54,7 @@ public class ExecuteRicercaUtentiServlet extends HttpServlet {
 		// Valido gli input di ricerca
 		if (!dateCreatedStringInputParam.isEmpty()) {
 			try {
-				WebUtils.stringToLocalDate(dateCreatedStringInputParam);
+				WebUtilsFactory.getWebUtilsAutoreInstance().stringToLocalDate(dateCreatedStringInputParam);
 			} catch(Exception e) {
 				request.setAttribute("errorMessage", "Dati inseriti non validi");
 				request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaUtente/ricercaUtente.jsp").forward(request,response);
@@ -67,12 +67,12 @@ public class ExecuteRicercaUtentiServlet extends HttpServlet {
 		 *  I campi diversi da dateCreated, statoUtente e nomeRuolo vengono splittati nelle parole che li compongono. */
 		TreeMap<String,TreeSet<String>> mappaCampoToValore=new TreeMap<>();
 		// Nella mappa, chiamo le chiavi con lo stesso nome degli attributi nel model, per far funzionare la query nel DAOImpl
-		mappaCampoToValore.put("nomeUtente",WebUtils.splittaInputSeNonVuoto(nomeUtenteInputParam)); 
-		mappaCampoToValore.put("cognomeUtente",WebUtils.splittaInputSeNonVuoto(cognomeUtenteInputParam));
-		mappaCampoToValore.put("username",WebUtils.splittaInputSeNonVuoto(usernameUtenteInputParam));
-		mappaCampoToValore.put("dateCreated",WebUtils.generaTreeSetConElemento(dateCreatedStringInputParam));
-		mappaCampoToValore.put("statoUtente",WebUtils.generaTreeSetConElemento(statoUtenteStringInputParam));
-		mappaCampoToValore.put("descrizioneRuolo",WebUtils.generaTreeSetConElemento(descrizioneRuoloStringInputParam));
+		mappaCampoToValore.put("nomeUtente",WebUtilsFactory.getWebUtilsAutoreInstance().splittaInputSeNonVuoto(nomeUtenteInputParam)); 
+		mappaCampoToValore.put("cognomeUtente",WebUtilsFactory.getWebUtilsAutoreInstance().splittaInputSeNonVuoto(cognomeUtenteInputParam));
+		mappaCampoToValore.put("username",WebUtilsFactory.getWebUtilsAutoreInstance().splittaInputSeNonVuoto(usernameUtenteInputParam));
+		mappaCampoToValore.put("dateCreated",WebUtilsFactory.getWebUtilsAutoreInstance().generaTreeSetConElemento(dateCreatedStringInputParam));
+		mappaCampoToValore.put("statoUtente",WebUtilsFactory.getWebUtilsAutoreInstance().generaTreeSetConElemento(statoUtenteStringInputParam));
+		mappaCampoToValore.put("descrizioneRuolo",WebUtilsFactory.getWebUtilsAutoreInstance().generaTreeSetConElemento(descrizioneRuoloStringInputParam));
 		
 		try {
 			Set<Utente> utentiRisultanti=MyServiceFactory.getUtenteServiceInstance().trovaTuttiTramiteAttributiERuolo(mappaCampoToValore);

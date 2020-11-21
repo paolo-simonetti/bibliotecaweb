@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import it.solvingteam.bibliotecaweb.model.Autore;
 import it.solvingteam.bibliotecaweb.service.MyServiceFactory;
-import it.solvingteam.bibliotecaweb.utils.WebUtils;
+import it.solvingteam.bibliotecaweb.utils.WebUtilsFactory;
 
 @WebServlet("/accessoEffettuato/ricerca/autori/ExecuteRicercaAutoriServlet")
 public class ExecuteRicercaAutoriServlet extends HttpServlet {
@@ -36,7 +36,7 @@ public class ExecuteRicercaAutoriServlet extends HttpServlet {
 		// Valido gli input di ricerca
 		if (!dataNascitaStringInputParam.isEmpty()) {
 			try {
-				WebUtils.stringToLocalDate(dataNascitaStringInputParam);
+				WebUtilsFactory.getWebUtilsAutoreInstance().stringToLocalDate(dataNascitaStringInputParam);
 			} catch(Exception e) {
 				request.setAttribute("errorMessage", "Dati inseriti non validi");
 				request.getServletContext().getRequestDispatcher("/jsp/ricerca/ricercaAutore.jsp").forward(request,response);
@@ -45,7 +45,7 @@ public class ExecuteRicercaAutoriServlet extends HttpServlet {
 			
 		} 
 		//Se tutti i campi di input sono vuoti, voglio tutti gli autori presenti
-		if (!WebUtils.almenoUnInputNonVuoto(nomeAutoreInputParam,cognomeAutoreInputParam,dataNascitaStringInputParam,libroStringInputParam)) {
+		if (!WebUtilsFactory.getWebUtilsAutoreInstance().almenoUnInputNonVuoto(nomeAutoreInputParam,cognomeAutoreInputParam,dataNascitaStringInputParam,libroStringInputParam)) {
 			try {
 				//Preparo la lista di id per il palleggio
 				String risultatoRicercaAutorePerGet="";
@@ -69,10 +69,10 @@ public class ExecuteRicercaAutoriServlet extends HttpServlet {
 		 * I campi diversi da dataNascita vengono splittati nelle parole che li compongono. */
 		TreeMap<String,TreeSet<String>> mappaCampoToValore=new TreeMap<>();
 		// Nella mappa, chiamo le chiavi con lo stesso nome degli attributi nel model, per far funzionare la query nel DAOImpl
-		mappaCampoToValore.put("nomeAutore",WebUtils.splittaInputSeNonVuoto(nomeAutoreInputParam)); 
-		mappaCampoToValore.put("cognomeAutore",WebUtils.splittaInputSeNonVuoto(cognomeAutoreInputParam));
-		mappaCampoToValore.put("titolo",WebUtils.splittaInputSeNonVuoto(libroStringInputParam));
-		mappaCampoToValore.put("dataNascita",WebUtils.generaTreeSetConElemento(dataNascitaStringInputParam));
+		mappaCampoToValore.put("nomeAutore",WebUtilsFactory.getWebUtilsAutoreInstance().splittaInputSeNonVuoto(nomeAutoreInputParam)); 
+		mappaCampoToValore.put("cognomeAutore",WebUtilsFactory.getWebUtilsAutoreInstance().splittaInputSeNonVuoto(cognomeAutoreInputParam));
+		mappaCampoToValore.put("titolo",WebUtilsFactory.getWebUtilsAutoreInstance().splittaInputSeNonVuoto(libroStringInputParam));
+		mappaCampoToValore.put("dataNascita",WebUtilsFactory.getWebUtilsAutoreInstance().generaTreeSetConElemento(dataNascitaStringInputParam));
 		try {
 			Set<Autore> autoriRisultanti=MyServiceFactory.getAutoreServiceInstance().trovaTuttiTramiteAttributiELibro(mappaCampoToValore);
 			request.setAttribute("elencoAutori",autoriRisultanti);

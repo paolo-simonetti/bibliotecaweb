@@ -4,7 +4,7 @@
 <html lang="it">
 <head>
 	<jsp:include page="../generali/header.jsp" />
-	<title>Inserimento nuovo autore</title>
+	<title>Inserimento nuovo libro</title>
 	
 	<!-- style per le pagine diverse dalla index -->
     <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
@@ -32,44 +32,55 @@
 		
 		<div class='card'>
 		    <div class='card-header'>
-		        <h5>Inserisci il nuovo autore e il suo libro </h5> 
+		        <h5>Inserisci un nuovo libro </h5> 
 		    </div>
 		    <div class='card-body'>
-		    <h6 class="card-title">I campi con <span class="text-danger">*</span> sono obbligatori</h6>
-		    		<form method="post" action="${pageContext.request.contextPath}/accessoEffettuato/inserimento/autore/ExecuteInsertAutoreServlet?paginaDiProvenienza=${requestScope.paginaDiProvenienza}" novalidate="novalidate">
+		    <h6 class="card-title">I campi con <span class="text-danger">*</span> sono obbligatori. </h6>
+		      <c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
+				<form method="post" 
+				  action="${pageContext.request.contextPath}/accessoEffettuato/inserimento/autore/PrepareInsertAutoreServlet?paginaDiProvenienza=risultatiLibro" novalidate="novalidate">
+		    	  <div class="form-group col-md-6">
+					<label>Se l'autore del libro non è presente nella lista fornita sotto: </label>
+					<input type="hidden" name="risultatoRicercaLibro" id="risultatoRicercaLibro" value="${requestScope.risultatoRicercaLibro}" class="form-control">
+				  </div>
+				  <button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Vai alla pagina di inserimento autori</button>
+				</form>
+		      </c:if>
+		    
+		    		<form method="post" 
+		    		  action="${pageContext.request.contextPath}/accessoEffettuato/inserimento/libro/ExecuteInsertLibroServlet?paginaDiProvenienza=${requestScope.paginaDiProvenienza}" 
+		    		  novalidate="novalidate">
+								 	 
 				 	    <div class="form-group col-md-6">
 						  <label></label>
-						  <input type="hidden" name="risultatoRicercaLibro" id="risultatoRicercaLibro" value="${requestScope.risultatoRicercaLibro}" class="form-control">
+						  <input type="hidden" name="risultatoRicercaLibro" id="risultatoRicercaLibro" 
+						    value="${requestScope.risultatoRicercaLibro}" class="form-control">
+						  <input type="hidden" name="idAutoriPresenti" id="idAutoriPresenti" 
+						    value="${requestScope.idAutoriPresenti}" class="form-control">
+						  <input type="hidden" name="listaGeneri" id="listaGeneri" 
+						    value="${requestScope.listaGeneri}" class="form-control">
+
 				  		</div>
 
-				 	    <div class="form-group col-md-6">
-						  <label></label>
-						  <input type="hidden" name="risultatoRicercaAutore" id="risultatoRicercaAutore" value="${requestScope.risultatoRicercaAutore}" class="form-control">
-				  		</div>
 						
 						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label>Nome dell'autore<span class="text-danger">*</span></label>
-								<input type="text" name="nomeAutore" id="nomeAutore" class="form-control" required>
-							</div>
+							<div class="form-group">
+  					      	  <label for="selectAutore">Autore: <span class="text-danger">*</span></label>
+  					      	  <select class="form-control" id="selectAutore" name="selectAutore">
+     					        <c:forEach items="${requestScope.listaAutoriPresenti}" var="autore">
+    					    	  <option value="${autore.idAutore}">
+    					    	    ${autore.nomeAutore} ${autore.cognomeAutore} nato il ${autore.dataNascita}
+    					    	  </option>
+    					    	</c:forEach>
+  					      	  </select>
+					    	</div> 							
 							
-							<div class="form-group col-md-6">
-								<label>Cognome dell'autore<span class="text-danger">*</span></label>
-								<input type="text" name="cognomeAutore" id="cognomeAutore" class="form-control" required>
-							</div>
 						</div>
+						
 						
 						<div class="form-row">	
 							<div class="form-group col-md-3">
-								<label>Data di nascita<span class="text-danger">*</span></label>
-								<input type="date" class="form-control" name="dataNascita" id="dataNascita" required>
-							</div>		
-
-						</div>
-						
-						<div class="form-row">	
-							<div class="form-group col-md-3">
-								<label>Titolo del suo libro</label>
+								<label>Titolo del libro</label>
 								<input type="text" class="form-control" name="titolo" id="titolo">
 							</div>
 							<div class="form-group">
