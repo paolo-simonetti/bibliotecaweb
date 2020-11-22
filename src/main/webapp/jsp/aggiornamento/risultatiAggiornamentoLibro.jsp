@@ -8,7 +8,7 @@
 <html>
 <head>
 	<jsp:include page="../generali/header.jsp" />
-	<title>Risultati inserimento libro</title>
+	<title>Risultati aggiornamento libro</title>
 	
 	<!-- style per le pagine diverse dalla index -->
     <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
@@ -78,17 +78,17 @@
 		                     
 	                         <td>
 									<a class="btn  btn-sm btn-outline-secondary" 
-									  href="${pageContext.request.contextPath}/accessoEffettuato/visualizzazione/libro/VisualizzazioneLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaVisualizzare=${item.idLibro}&paginaDiProvenienza=risultatiInserimentoLibro">
+									  href="${pageContext.request.contextPath}/accessoEffettuato/visualizzazione/libro/VisualizzazioneLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaVisualizzare=${item.idLibro}&paginaDiProvenienza=risultatiAggiornamentoLibro">
 									  Visualizza libro
 									</a>
 									<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
 									  <a class="btn  btn-sm btn-outline-primary ml-2 mr-2" 
-									    href="${pageContext.request.contextPath}/accessoEffettuato/aggiornamento/libro/PrepareUpdateLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaAggiornare=${item.idLibro}&paginaDiProvenienza=risultatiInserimentoLibro">
+									    href="${pageContext.request.contextPath}/accessoEffettuato/aggiornamento/libro/PrepareUpdateLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaAggiornare=${item.idLibro}&paginaDiProvenienza=risultatiAggiornamentoLibro">
 									    Aggiorna libro
 									  </a>
 									  
 									  <a class="btn btn-outline-danger btn-sm" 
-									    href="${pageContext.request.contextPath}/accessoEffettuato/eliminazione/libro/PrepareDeleteLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaEliminare=${item.idLibro}&paginaDiProvenienza=risultatiInserimentoLibro">
+									    href="${pageContext.request.contextPath}/accessoEffettuato/eliminazione/libro/PrepareDeleteLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaEliminare=${item.idLibro}&paginaDiProvenienza=risultatiAggiornamentoLibro">
 									    Elimina libro
 									  </a>
 									</c:if>

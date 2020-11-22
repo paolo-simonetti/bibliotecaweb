@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import it.solvingteam.bibliotecaweb.service.MyServiceFactory;
+
 @Entity
 @Table(name="autore")
 public class Autore implements Comparable<Autore> {
@@ -96,7 +98,8 @@ public class Autore implements Comparable<Autore> {
 				try {
 					boolean libroInComuneIsPresente=false;
 					for(Libro libro:libriScritti) {
-						for (Libro libroAutore:autore.getLibriScritti()) {
+						for (Libro libroAutore:MyServiceFactory.getAutoreServiceInstance().caricaSingoloElementoConLibri(autore.getIdAutore())
+								.getLibriScritti()) {
 							libroInComuneIsPresente=(libro.equals(libroAutore));					
 						}
 						if(libroInComuneIsPresente) {

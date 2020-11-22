@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import it.solvingteam.bibliotecaweb.utils.WebUtilsFactory;
+
 @WebServlet("/accessoEffettuato/eliminazione/autore/PrepareDeleteAutoreServlet")
 public class PrepareDeleteAutoreServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -21,9 +23,15 @@ public class PrepareDeleteAutoreServlet extends HttpServlet {
 		try {
 			// Palleggio subito la lista risultato della ricerca originaria
 			String[] risultatoRicercaAutore=request.getParameterValues("risultatoRicercaAutorePerGet");
-			String stringaRisultatoRicercaAutore="";
-			for (String s: risultatoRicercaAutore) {
-				stringaRisultatoRicercaAutore+="risultatoRicercaAutore="+s+"&";
+			String stringaRisultatoRicercaAutore=null;
+			try {
+				stringaRisultatoRicercaAutore=WebUtilsFactory.getWebUtilsAutoreInstance()
+						.trasformaDaGetAPostFormatoIdRisultatiRicerca(risultatoRicercaAutore);	
+			} catch(Exception e) {
+				e.printStackTrace();
+				request.setAttribute("errorMessage","Aggiornamento fallito: errore nel recupero dei risultati della ricerca dell'autore");
+				request.getServletContext().getRequestDispatcher("/jsp/generali/menu.jsp").forward(request,response);
+				return;
 			}
 			request.setAttribute("risultatoRicercaAutore",stringaRisultatoRicercaAutore);
 			idAutore=Long.parseLong(request.getParameter("idAutoreDaEliminare"));

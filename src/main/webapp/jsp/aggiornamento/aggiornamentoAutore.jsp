@@ -4,7 +4,7 @@
 <html lang="it">
 <head>
 	<jsp:include page="../generali/header.jsp" />
-	<title>Inserimento nuovo autore</title>
+	<title>Aggiornamento autore</title>
 	
 	<!-- style per le pagine diverse dalla index -->
     <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
@@ -36,29 +36,45 @@
 		    </div>
 		    <div class='card-body'>
 		    <h6 class="card-title">I campi con <span class="text-danger">*</span> sono obbligatori</h6>
-		    		<form method="post" action="${pageContext.request.contextPath}/accessoEffettuato/aggiornamento/autore/ExecuteUpdateAutoreServlet" novalidate="novalidate">
+		    		<form method="post" 
+		    		  action="${pageContext.request.contextPath}/accessoEffettuato/aggiornamento/autore/ExecuteUpdateAutoreServlet" 
+		    		  novalidate="novalidate"
+		    		>
 				 	    <div class="form-group col-md-6">
 						  <label></label>
-						  <input type="hidden" name="risultatoRicercaAutore" id="risultatoRicercaAutore" value="${requestScope.risultatoRicercaAutore}" class="form-control">
-				  		  <input type="hidden" name="idAutoreDaAggiornare" id="idAutoreDaAggiornare" value="${requestScope.idAutoreDaAggiornare}" class="form-control">
+						  <input type="hidden" name="risultatoRicercaAutore" id="risultatoRicercaAutore" 
+						    value="${requestScope.risultatoRicercaAutore}" class="form-control"
+						  >
+				  		  <input type="hidden" name="idAutoreDaAggiornare" id="idAutoreDaAggiornare" 
+				  		    value="${requestScope.idAutoreDaAggiornare}" class="form-control"
+				  		  >
+				  		  <input type="hidden" name="paginaDiProvenienza" id="paginaDiProvenienza" 
+				  		    value="${requestScope.paginaDiProvenienza}" class="form-control"
+				  		  >
 				  		</div>
 						
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label>Nome dell'autore<span class="text-danger">*</span></label>
-								<input type="text" name="nomeAutore" id="nomeAutore" value="${requestScope.autoreDaAggiornare.nomeAutore}" class="form-control" required>
+								<input type="text" name="nomeAutore" id="nomeAutore" 
+								  value="${requestScope.autoreDaAggiornare.nomeAutore}" class="form-control" required
+								>
 							</div>
 							
 							<div class="form-group col-md-6">
 								<label>Cognome dell'autore<span class="text-danger">*</span></label>
-								<input type="text" name="cognomeAutore" id="cognomeAutore" value="${requestScope.autoreDaAggiornare.cognomeAutore}" class="form-control" required>
+								<input type="text" name="cognomeAutore" id="cognomeAutore" 
+								  value="${requestScope.autoreDaAggiornare.cognomeAutore}" class="form-control" required
+								>
 							</div>
 						</div>
 						
 						<div class="form-row">	
 							<div class="form-group col-md-3">
 								<label>Data di nascita<span class="text-danger">*</span></label>
-								<input type="date" class="form-control" name="dataNascita" value="${requestScope.autoreDaAggiornare.dataNascita}" id="dataNascita" required>
+								<input type="date" class="form-control" name="dataNascita" 
+								  value="${requestScope.autoreDaAggiornare.dataNascita}" id="dataNascita" required
+								>
 							</div>		
 
 						</div>

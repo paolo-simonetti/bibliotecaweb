@@ -31,13 +31,18 @@ public class ExecuteUpdateAutoreServlet extends HttpServlet {
 		String nomeAutoreInputParam=request.getParameter("nomeAutore");
 		String cognomeAutoreInputParam=request.getParameter("cognomeAutore");
 		String dataNascitaStringInputParam=request.getParameter("dataNascita");
-		// Palleggio l'autore da aggiornare e il risultato della ricerca, innanzitutto
+		// Palleggio la pagina di provenienza e l'autore da aggiornare, innanzitutto
+		String paginaDiProvenienza=request.getParameter("paginaDiProvenienza");
+		paginaDiProvenienza=WebUtilsFactory.getWebUtilsAutoreInstance()
+					.ricostruisciPathRelativoDellaPaginaDiProvenienza(paginaDiProvenienza,request);					
+
 		Autore autoreDaAggiornare=null;
-		
 		try {
 			autoreDaAggiornare=MyServiceFactory.getAutoreServiceInstance()
 					.caricaSingoloElementoConLibri(Long.parseLong(request.getParameter("idAutoreDaAggiornare")));				
-		} catch(NumberFormatException e) {
+		} catch(NumberFormatException | NullPointerException e) {
+			/* Se si è verificata una NumberFormatException o una NullPointerException, vuol dire che l'id è stato manomesso da URL, 
+			 * ergo ti sbatto fuori */
 			e.printStackTrace();
 			HttpSession session=request.getSession();
 			session.invalidate();
@@ -45,23 +50,24 @@ public class ExecuteUpdateAutoreServlet extends HttpServlet {
 			request.getServletContext().getRequestDispatcher("/jsp/generali/welcome.jsp").forward(request,response);
 			return;
 		} catch(Exception e) {
+			/* Se si è verificata un'eccezione di altro tipo, probabilmente è andato storto qualcosa nel recupero dell'autore, quindi
+			 * ti rimando alla pagina di provenienza */ 
 			e.printStackTrace();
 			request.setAttribute("risultatoRicercaAutore",request.getParameter("risultatoRicercaAutore"));
 			request.setAttribute("idAutoreDaAggiornare", request.getParameter("idAutoreDaAggiornare"));
-
 			request.setAttribute("errorMessage","Errore nell'aggiornamento dell'autore");
-			request.getServletContext().getRequestDispatcher("/jsp/aggiornamento/aggiornamentoAutore.jsp").forward(request,response);
+			request.getServletContext().getRequestDispatcher(paginaDiProvenienza).forward(request,response);
 			return;
 		}
+		
 		request.setAttribute("autoreDaAggiornare",autoreDaAggiornare);
-
 		// Valido gli input
 		if (WebUtilsFactory.getWebUtilsAutoreInstance()
 				.almenoUnInputVuoto(nomeAutoreInputParam,cognomeAutoreInputParam,dataNascitaStringInputParam)) {
 			// Continuo a palleggiare il risultato della ricerca e l'autore da aggiornare
 			request.setAttribute("risultatoRicercaAutore",request.getParameter("risultatoRicercaAutore"));
 			request.setAttribute("idAutoreDaAggiornare", request.getParameter("idAutoreDaAggiornare"));
-			request.setAttribute("errorMessage","Inserimento fallito: inserire tutti i campi indicati come obbligatori");
+			request.setAttribute("errorMessage","Aggiornamento fallito: inserire tutti i campi indicati come obbligatori");
 			request.getServletContext().getRequestDispatcher("/jsp/aggiornamento/aggiornamentoAutore.jsp").forward(request,response);
 			return;
 		} 	
@@ -73,7 +79,7 @@ public class ExecuteUpdateAutoreServlet extends HttpServlet {
 			request.setAttribute("risultatoRicercaAutore",request.getParameter("risultatoRicercaAutore"));
 			request.setAttribute("errorMessage","Inserimento fallito: dati inseriti non validi");
 			request.setAttribute("autoreDaAggiornare",autoreDaAggiornare);
-			request.getServletContext().getRequestDispatcher("/jsp/inserimento/inserimentoAutore.jsp").forward(request,response);
+			request.getServletContext().getRequestDispatcher("/jsp/aggiornamento/aggiornamentoAutore.jsp").forward(request,response);
 			return;
 		}
 		
@@ -103,7 +109,7 @@ public class ExecuteUpdateAutoreServlet extends HttpServlet {
 				request.setAttribute("risultatoRicercaAutore",request.getParameter("risultatoRicercaAutore"));
 				request.setAttribute("autoreDaAggiornare",autoreDaAggiornare);
 				request.setAttribute("errorMessage", "Esito dell'aggiornamento dell'autore: negativo");
-				request.getServletContext().getRequestDispatcher("/jsp/aggiornamento/aggiornamentoAutore.jsp").forward(request,response);
+				request.getServletContext().getRequestDispatcher(paginaDiProvenienza).forward(request,response);
 				return;
 			}
 		} catch (Exception e) {
@@ -111,7 +117,7 @@ public class ExecuteUpdateAutoreServlet extends HttpServlet {
 			e.printStackTrace();
 			request.setAttribute("autoreDaAggiornare",autoreDaAggiornare);
 			request.setAttribute("errorMessage", "Errore nel recupero dell'autore richiesto o nel suo aggiornamento");
-			request.getServletContext().getRequestDispatcher("/jsp/aggiornamento/aggiornamentoAutore.jsp").forward(request,response);
+			request.getServletContext().getRequestDispatcher(paginaDiProvenienza).forward(request,response);
 			return;
 		}
 

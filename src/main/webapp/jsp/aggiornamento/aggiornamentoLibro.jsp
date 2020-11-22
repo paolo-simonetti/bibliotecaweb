@@ -4,7 +4,7 @@
 <html lang="it">
 <head>
 	<jsp:include page="../generali/header.jsp" />
-	<title>Inserimento nuovo libro</title>
+	<title>Aggiornamento libro</title>
 	
 	<!-- style per le pagine diverse dalla index -->
     <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
@@ -32,35 +32,28 @@
 		
 		<div class='card'>
 		    <div class='card-header'>
-		        <h5>Inserisci un nuovo libro </h5> 
+		        <h5>Aggiorna i dati del libro </h5> 
 		    </div>
 		    <div class='card-body'>
 		    <h6 class="card-title">I campi con <span class="text-danger">*</span> sono obbligatori. </h6>
-		      <c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
-				<form  
-				  action="${pageContext.request.contextPath}/accessoEffettuato/inserimento/autore/PrepareInsertAutoreServlet?paginaDiProvenienza=${requestScope.paginaDiProvenienza}" 
-				  novalidate="novalidate"
-				>
-		    	  <div class="form-group col-md-6">
-					<label>Se l'autore del libro non è presente nella lista fornita sotto: </label>
-					<input type="hidden" name="risultatoRicercaLibro" id="risultatoRicercaLibro" value="${requestScope.risultatoRicercaLibro}" class="form-control">
-				  </div>
-				  <button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Vai alla pagina di inserimento autori</button>
-				</form>
-		      </c:if>
 		    
 		    		<form method="post" 
-		    		  action="${pageContext.request.contextPath}/accessoEffettuato/inserimento/libro/ExecuteInsertLibroServlet?paginaDiProvenienza=${requestScope.paginaDiProvenienza}" 
+		    		  action="${pageContext.request.contextPath}/accessoEffettuato/aggiornamento/libro/ExecuteUpdateLibroServlet?" 
 		    		  novalidate="novalidate">
 								 	 
 				 	    <div class="form-group col-md-6">
 						  <label></label>
+						  <input type="hidden" name="paginaDiProvenienza" id="paginaDiProvenienza" 
+						    value="${requestScope.paginaDiProvenienza}" class="form-control">
 						  <input type="hidden" name="risultatoRicercaLibro" id="risultatoRicercaLibro" 
 						    value="${requestScope.risultatoRicercaLibro}" class="form-control">
 						  <input type="hidden" name="idAutoriPresenti" id="idAutoriPresenti" 
 						    value="${requestScope.idAutoriPresenti}" class="form-control">
 						  <input type="hidden" name="listaGeneri" id="listaGeneri" 
 						    value="${requestScope.listaGeneri}" class="form-control">
+						  <input type="hidden" name="idLibroDaAggiornare" id="idLibroDaAggiornare" 
+						    value="${requestScope.idLibroDaAggiornare}" class="form-control">
+
 
 				  		</div>
 
@@ -69,8 +62,10 @@
 							<div class="form-group">
   					      	  <label for="selectAutore">Autore: <span class="text-danger">*</span></label>
   					      	  <select class="form-control" id="selectAutore" name="selectAutore">
-     					        <c:forEach items="${requestScope.listaAutoriPresenti}" var="autore">
-    					    	  <option value="${autore.idAutore}">
+     					        <c:forEach items="${requestScope.listaAutoriPresenti}" var="autore"> 
+    					    	  <option value="${autore.idAutore}"
+    					    	    <c:if test="${requestScope.libroDaAggiornare.autoreDelLibro.idAutore eq autore.idAutore}" > selected </c:if>
+    					    	  >
     					    	    ${autore.nomeAutore} ${autore.cognomeAutore} nato il ${autore.dataNascita}
     					    	  </option>
     					    	</c:forEach>
@@ -83,14 +78,16 @@
 						<div class="form-row">	
 							<div class="form-group col-md-3">
 								<label>Titolo del libro</label>
-								<input type="text" class="form-control" name="titolo" id="titolo">
+								<input type="text" class="form-control" name="titolo" id="titolo" value="${libroDaAggiornare.titolo}">
 							</div>
 							<div class="form-group">
   					      	  <label for="selectGenere">Genere:</label>
   					      	  <select class="form-control" id="selectGenere" name="genere">
      					        <c:forEach items="${requestScope.listaGeneri}" var="genereDisponibile">
-    					    	  <option value="${genereDisponibile}">
-    					    	    ${genereDisponibile}
+    					    	  <option value="${genereDisponibile.stringaGenere}" 
+    					    	    <c:if test="${requestScope.libroDaAggiornare.genere eq genereDisponibile}" > selected </c:if>
+    					    	  >
+    					    	    ${genereDisponibile.stringaGenere}
     					    	  </option>
     					    	</c:forEach>
   					      	  </select>
@@ -101,14 +98,16 @@
 						<div class="form-row">	
 						  <div class="form-group col-md-3">
 						    <label>Trama</label>
-							<input type="text" class="form-control" name="trama" id="trama" placeholder="Di cosa parla il libro?">
+							<input type="text" class="form-control" name="trama" id="trama" 
+							  placeholder="Di cosa parla il libro?" value="${requestScope.libroDaAggiornare.trama}"
+							>
 						  </div>		
 						</div>	
 					
 						<div class="form-row">
 						  <div class="form-group col-md-3">
 						    <label>ISBN<span class="text-danger">*</span></label> 
-							<input type="text" class="form-control" name="ISBN" id="ISBN">
+							<input type="text" class="form-control" name="ISBN" id="ISBN" value="${requestScope.libroDaAggiornare.ISBN}">
 						  </div>		
 						</div>
 												

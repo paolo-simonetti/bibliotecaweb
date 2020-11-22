@@ -42,6 +42,14 @@ public class ExecuteRicercaLibriServlet extends HttpServlet {
 			try {
 				request.setAttribute("elencoLibri",MyServiceFactory.getLibroServiceInstance().elenca());
 				request.setAttribute("successMessage","Ricerca eseguita con successo");
+				//Preparo l'attributo coi risultati della ricerca da palleggiare nelle servlet in post successive
+				Set<Long> idLibriRisultantiPerPost=MyServiceFactory.getLibroServiceInstance().elenca().stream()
+						.map(libro->libro.getIdLibro()).collect(Collectors.toSet());
+				request.setAttribute("risultatoRicercaLibro",idLibriRisultantiPerPost);
+				// Preparo l'attributo coi risultati della ricerca da palleggiare nelle servlet in get successive
+				String idLibriRisultantiPerGet=WebUtilsFactory.getWebUtilsLibroInstance()
+						.trasformaDaPostAGetFormatoIdRisultatiRicercaLibro(idLibriRisultantiPerPost);
+				request.setAttribute("risultatoRicercaLibroPerGet",idLibriRisultantiPerGet);
 				request.getServletContext().getRequestDispatcher("/jsp/ricerca/risultatiLibro.jsp").forward(request,response);
 				return;
 			} catch (Exception e) {
@@ -76,9 +84,13 @@ public class ExecuteRicercaLibriServlet extends HttpServlet {
 		mappaCampoToValore.put("genere",WebUtilsFactory.getWebUtilsLibroInstance().generaTreeSetConElemento(genereStringInputParam));
 		try {
 			Set<Libro> libriRisultanti=MyServiceFactory.getLibroServiceInstance().trovaTuttiTramiteAttributiEAutore(mappaCampoToValore);
-			//Preparo l'attributo coi risultati della ricerca da palleggiare nelle servlet successive
-			Set<Long> idLibriRisultanti=libriRisultanti.stream().map(libro->libro.getIdLibro()).collect(Collectors.toSet());
-			request.setAttribute("risultatoRicercaLibro",idLibriRisultanti);
+			//Preparo l'attributo coi risultati della ricerca da palleggiare nelle servlet in post successive
+			Set<Long> idLibriRisultantiPerPost=libriRisultanti.stream().map(libro->libro.getIdLibro()).collect(Collectors.toSet());
+			request.setAttribute("risultatoRicercaLibro",idLibriRisultantiPerPost);
+			// Preparo l'attributo coi risultati della ricerca da palleggiare nelle servlet in get successive
+			String idLibriRisultantiPerGet=WebUtilsFactory.getWebUtilsLibroInstance()
+					.trasformaDaPostAGetFormatoIdRisultatiRicercaLibro(idLibriRisultantiPerPost);
+			request.setAttribute("risultatoRicercaLibroPerGet",idLibriRisultantiPerGet);
 			// Questo attributo mi serve per il for each sui risultati della ricerca
 			request.setAttribute("elencoLibri",libriRisultanti);
 			request.setAttribute("successMessage","Ricerca eseguita con successo");

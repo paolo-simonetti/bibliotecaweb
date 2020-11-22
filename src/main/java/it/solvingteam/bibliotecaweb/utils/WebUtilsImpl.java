@@ -99,5 +99,17 @@ public abstract class WebUtilsImpl<T> implements WebUtils<T> {
 		}
 	}
 
+	public String trasformaDaGetAPostFormatoIdRisultatiRicerca (String[] idRisultatiRicercaInGet) throws Exception {
+		if(idRisultatiRicercaInGet==null||idRisultatiRicercaInGet.length==0||idRisultatiRicercaInGet[0]==null) {
+			throw new Exception("Errore nel recupero dei risultati della ricerca");
+		} else {
+			String idRisultatiRicercaInPost="[";
+			for (String s: idRisultatiRicercaInGet) {
+				idRisultatiRicercaInPost+=s+", ";
+			}
+			idRisultatiRicercaInPost+="]";
+			return idRisultatiRicercaInPost;			
+		}
+	}
 	
 }

@@ -20,7 +20,14 @@ public class WebUtilsLibro extends WebUtilsImpl<Libro> {
 		}
 		return risultatoRicercaLibro;
 	}	
-		
+	
+	public String trasformaDaPostAGetFormatoIdRisultatiRicercaLibro (Set<Long> idRisultatiRicercaLibroInPost) {
+		String idRisultatiRicercaLibroInGet="";
+		for (Long id:idRisultatiRicercaLibroInPost) {
+			idRisultatiRicercaLibroInGet+=("risultatoRicercaLibroPerGet="+id+"&");
+		}
+		return idRisultatiRicercaLibroInGet;
+	} 
 	
 
 }

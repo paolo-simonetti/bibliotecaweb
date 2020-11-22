@@ -72,6 +72,14 @@ public enum Genere {
 		return stringaGenere;
 	}
 	
+	public String getStringaGenere() {
+		return stringaGenere;
+	}
+
+	public void setStringaGenere(String stringaGenere) {
+		this.stringaGenere = stringaGenere;
+	}
+
 	Genere(String stringaGenere) {
 		this.stringaGenere=stringaGenere;
 	}
