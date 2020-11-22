@@ -24,13 +24,19 @@ public class ExecuteDeleteAutoreServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Recupero i parametri da input
-		String[] arrayRisultatoRicercaAutore=request.getParameterValues("risultatoRicercaAutore");
-		String stringaRisultatoRicercaAutore="[";
-		for (String idStringa:arrayRisultatoRicercaAutore) {
-			stringaRisultatoRicercaAutore+=idStringa+", ";
+		String[] arrayRisultatoRicercaAutore=request.getParameterValues("risultatoRicercaAutorePerGet");
+		String stringaRisultatoRicercaAutore=null;
+		try {
+			stringaRisultatoRicercaAutore=WebUtilsFactory.getWebUtilsAutoreInstance()
+					.trasformaDaGetAPostFormatoIdRisultatiRicerca(arrayRisultatoRicercaAutore);	
+		} catch(Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage","Eliminazione fallita: errore nel recupero dei risultati della ricerca del libro");
+			request.getServletContext().getRequestDispatcher("/jsp/generali/menu.jsp").forward(request,response);
+			return;
 		}
-		stringaRisultatoRicercaAutore+="]";
-		String paginaDiProvenienza=WebUtilsFactory.getWebUtilsAutoreInstance().ricostruisciPathRelativoDellaPaginaDiProvenienza(request.getParameter("paginaDiProvenienza"),request);
+		String paginaDiProvenienza=WebUtilsFactory.getWebUtilsAutoreInstance()
+				.ricostruisciPathRelativoDellaPaginaDiProvenienza(request.getParameter("paginaDiProvenienza"),request);
 		String stringaIdAutoreDaEliminare=request.getParameter("idAutoreDaEliminare");
 		TreeSet<Autore> risultatoRicercaAutore=new TreeSet<>();
 		Long idAutoreDaEliminare=null;
@@ -62,12 +68,20 @@ public class ExecuteDeleteAutoreServlet extends HttpServlet {
 		} catch(Exception e) {
 			e.printStackTrace();
 			request.setAttribute("risultatoRicercaAutore",risultatoRicercaAutore);
-			request.setAttribute("errorMessage","Errore nell'esecuzione dell'eliminazione dell'autore");
+			request.setAttribute("errorMessage","Errore nell'esecuzione dell'eliminazione dell'autore. "
+					+ "La biblioteca possiede più di un libro di quell'autore?");
+			request.setAttribute("elencoAutori",risultatoRicercaAutore);
+			request.setAttribute("risultatoRicercaAutorePerGet",WebUtilsFactory.getWebUtilsAutoreInstance()
+					.trasformaDaPostAGetFormatoIdRisultatiRicercaAutore(arrayRisultatoRicercaAutore));
 			request.getServletContext().getRequestDispatcher(paginaDiProvenienza).forward(request,response);
+			return;
 		} 
 		
 		//Se l'autore non è stato eliminato, ti rispedisco alla pagina di provenienza (non a quella di conferma, intendo)
 		if(!esitoEliminazione) {
+			request.setAttribute("elencoAutori",risultatoRicercaAutore);
+			request.setAttribute("risultatoRicercaAutorePerGet",WebUtilsFactory.getWebUtilsAutoreInstance()
+					.trasformaDaPostAGetFormatoIdRisultatiRicercaAutore(arrayRisultatoRicercaAutore));
 			request.setAttribute("risultatoRicercaAutore",risultatoRicercaAutore);
 			request.setAttribute("errorMessage","Errore nell'esecuzione dell'eliminazione dell'autore");
 			request.getServletContext().getRequestDispatcher(paginaDiProvenienza).forward(request,response);
@@ -79,13 +93,19 @@ public class ExecuteDeleteAutoreServlet extends HttpServlet {
 				e.printStackTrace();
 				request.setAttribute("warningMessage", 
 						"Attenzione: l'eliminazione è avvenuta con successo, ma si è verificato un errore nel recupero degli autori restanti");
+				request.setAttribute("elencoAutori",risultatoRicercaAutore);
+				request.setAttribute("risultatoRicercaAutorePerGet",WebUtilsFactory.getWebUtilsAutoreInstance()
+						.trasformaDaPostAGetFormatoIdRisultatiRicercaAutore(arrayRisultatoRicercaAutore));
 				request.setAttribute("risultatoRicercaAutore",risultatoRicercaAutore);
 				request.getServletContext().getRequestDispatcher(paginaDiProvenienza).forward(request,response);
 				return;
 			}
 			request.setAttribute("successMessage", "Eliminazione avvenuta con successo");
+			request.setAttribute("elencoAutori",risultatoRicercaAutore);
+			request.setAttribute("risultatoRicercaAutorePerGet",WebUtilsFactory.getWebUtilsAutoreInstance()
+					.trasformaDaPostAGetFormatoIdRisultatiRicercaAutore(arrayRisultatoRicercaAutore));
 			request.setAttribute("risultatoRicercaAutore",risultatoRicercaAutore);
-			request.getServletContext().getRequestDispatcher(paginaDiProvenienza).forward(request,response);
+			request.getServletContext().getRequestDispatcher("/jsp/eliminazione/risultatiEliminazioneAutore.jsp").forward(request,response);
 		}
 	}
 

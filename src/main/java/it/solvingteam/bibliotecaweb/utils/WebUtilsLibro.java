@@ -16,7 +16,7 @@ public class WebUtilsLibro extends WebUtilsImpl<Libro> {
 				.map(idStringa->Long.parseLong(idStringa)).collect(Collectors.toSet());
 		TreeSet<Libro> risultatoRicercaLibro=new TreeSet<>();
 		for (Long id:idLibriRisultanti) {
-			risultatoRicercaLibro.add(MyServiceFactory.getLibroServiceInstance().caricaSingoloElemento(id));
+			risultatoRicercaLibro.add(MyServiceFactory.getLibroServiceInstance().caricaSingoloElementoConAutore(id));
 		}
 		return risultatoRicercaLibro;
 	}	
@@ -27,7 +27,16 @@ public class WebUtilsLibro extends WebUtilsImpl<Libro> {
 			idRisultatiRicercaLibroInGet+=("risultatoRicercaLibroPerGet="+id+"&");
 		}
 		return idRisultatiRicercaLibroInGet;
-	} 
+	}
+	
+	public String trasformaDaPostAGetFormatoIdRisultatiRicercaLibro (String[] idRisultatiRicercaLibroInPost) {
+		String idRisultatiRicercaLibroInGet="";
+		for (String s:idRisultatiRicercaLibroInPost) {
+			idRisultatiRicercaLibroInGet+=("risultatoRicercaLibroPerGet="+s+"&");
+		}
+		return idRisultatiRicercaLibroInGet;
+	}
+	
 	
 
 }

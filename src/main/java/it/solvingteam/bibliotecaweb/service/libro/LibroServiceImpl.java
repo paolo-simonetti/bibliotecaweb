@@ -9,7 +9,9 @@ import javax.persistence.EntityManager;
 
 import it.solvingteam.bibliotecaweb.dao.EntityManagerUtil;
 import it.solvingteam.bibliotecaweb.dao.libro.LibroDAO;
+import it.solvingteam.bibliotecaweb.model.Autore;
 import it.solvingteam.bibliotecaweb.model.Libro;
+import it.solvingteam.bibliotecaweb.service.MyServiceFactory;
 
 public class LibroServiceImpl implements LibroService {
 
@@ -142,7 +144,10 @@ public class LibroServiceImpl implements LibroService {
 				throw new Exception("Il libro in input non è presente sul db");
 			}
 			// Controllo che libroInstance non sia l'ultimo dei libri che la biblioteca ha di quell'autore
-			if( libroInstance.getAutoreDelLibro().getLibriScritti().size()==1) {
+			Autore autoreDelLibro=libroInstance.getAutoreDelLibro();
+			Autore autoreDelLibroConLibriScritti=MyServiceFactory.getAutoreServiceInstance()
+					.caricaSingoloElementoConLibri(autoreDelLibro.getIdAutore());
+			if(autoreDelLibroConLibriScritti.getLibriScritti().size()==1) {
 				throw new Exception("Rimozione fallita: il libro in input è l'ultimo che la biblioteca ha del suo autore");
 			}
 

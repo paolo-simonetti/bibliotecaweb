@@ -13,26 +13,33 @@ import javax.servlet.http.HttpServletResponse;
 import it.solvingteam.bibliotecaweb.model.Autore;
 import it.solvingteam.bibliotecaweb.utils.WebUtilsFactory;
 
-@WebServlet("/accessoEffettuato/eliminazione/autore/EliminazioneNonConfermataServlet")
-public class EliminazioneNonConfermataServlet extends HttpServlet {
+@WebServlet("/accessoEffettuato/eliminazione/autore/EliminazioneAutoreNonConfermataServlet")
+public class EliminazioneAutoreNonConfermataServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public EliminazioneNonConfermataServlet() {
+    public EliminazioneAutoreNonConfermataServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String[] arrayRisultatoRicercaAutore=request.getParameterValues("risultatoRicercaAutore");
-		String stringaRisultatoRicercaAutore="[";
-		for (String idStringa:arrayRisultatoRicercaAutore) {
-			stringaRisultatoRicercaAutore+=idStringa+", ";
+		String stringaRisultatoRicercaAutore=null;
+		try {
+			stringaRisultatoRicercaAutore=WebUtilsFactory.getWebUtilsAutoreInstance()
+					.trasformaDaGetAPostFormatoIdRisultatiRicerca(arrayRisultatoRicercaAutore);	
+		} catch(Exception e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage","Eliminazione fallita: errore nel recupero dei risultati della ricerca del libro");
+			request.getServletContext().getRequestDispatcher("/jsp/generali/menu.jsp").forward(request,response);
+			return;
 		}
-		stringaRisultatoRicercaAutore+="]";
 		String paginaDiProvenienza=request.getParameter("paginaDiProvenienza");	
-		paginaDiProvenienza=WebUtilsFactory.getWebUtilsAutoreInstance().ricostruisciPathRelativoDellaPaginaDiProvenienza(paginaDiProvenienza,request);
+		paginaDiProvenienza=WebUtilsFactory.getWebUtilsAutoreInstance()
+				.ricostruisciPathRelativoDellaPaginaDiProvenienza(paginaDiProvenienza,request);
 		Set<Autore> risultatoRicercaAutore=new TreeSet<>();
 		try {
-			risultatoRicercaAutore=WebUtilsFactory.getWebUtilsAutoreInstance().ricostruisciTreeSetDaStringaRisultati(stringaRisultatoRicercaAutore);			
+			risultatoRicercaAutore=WebUtilsFactory.getWebUtilsAutoreInstance().
+					ricostruisciTreeSetDaStringaRisultati(stringaRisultatoRicercaAutore);			
 		} catch(Exception e) {
 			e.printStackTrace();
 			request.setAttribute("errorMessage", "Errore nel recupero degli autori risultanti dalla ricerca precedente");

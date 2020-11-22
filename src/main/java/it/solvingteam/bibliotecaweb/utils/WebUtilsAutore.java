@@ -32,4 +32,13 @@ public class WebUtilsAutore extends WebUtilsImpl<Autore> {
 		return idRisultatiRicercaAutoreInGet;
 	} 
 	
+	public String trasformaDaPostAGetFormatoIdRisultatiRicercaAutore (String[] idRisultatiRicercaAutoreInPost) {
+		String idRisultatiRicercaAutoreInGet="";
+		for (String s:idRisultatiRicercaAutoreInPost) {
+			idRisultatiRicercaAutoreInGet+=("risultatoRicercaAutorePerGet="+s+"&");
+		}
+		return idRisultatiRicercaAutoreInGet;
+	}
+
+	
 }

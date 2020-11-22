@@ -12,7 +12,7 @@
 		}	
     </style>
     
-    <title>Conferma eliminazione</title>
+    <title>Conferma eliminazione libro</title>
   </head>
   <body>
   
@@ -24,13 +24,13 @@
 	  <!-- Main jumbotron for a primary marketing message or call to action -->
 	  <div class="jumbotron" >
 	    <div class="container">
-	      <h1 class="display-3">Conferma eliminazione</h1>
-	      <p>Pazzo scatenato, vuoi davvero eliminare questo autore?</p>
+	      <h1 class="display-3">Conferma eliminazione libro </h1>
+	      <p>Pazzo scatenato, vuoi davvero eliminare questo libro?</p>
 	      <p><a class="btn btn-primary btn-lg" 
-	        href="${pageContext.request.contextPath}/accessoEffettuato/eliminazione/autore/ExecuteDeleteAutoreServlet?${requestScope.risultatoRicercaAutorePerGet}idAutoreDaEliminare=${requestScope.idAutoreDaEliminare}&paginaDiProvenienza=${requestScope.paginaDiProvenienza}" role="button">
+	        href="${pageContext.request.contextPath}/accessoEffettuato/eliminazione/libro/ExecuteDeleteLibroServlet?${requestScope.risultatoRicercaLibro}idLibroDaEliminare=${requestScope.idLibroDaEliminare}&paginaDiProvenienza=${requestScope.paginaDiProvenienza}" role="button">
 	            Sei un folle &raquo;
 	      </a></p>
-	      <p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/accessoEffettuato/eliminazione/autore/EliminazioneAutoreNonConfermataServlet?${requestScope.risultatoRicercaAutore}paginaDiProvenienza=${requestScope.paginaDiProvenienza}" role="button">
+	      <p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/accessoEffettuato/eliminazione/libro/EliminazioneLibroNonConfermataServlet?${requestScope.risultatoRicercaLibro}paginaDiProvenienza=${requestScope.paginaDiProvenienza}" role="button">
 	          Bravo, torna alla lista degli articoli &raquo;
 	      </a></p>
 	    </div>
