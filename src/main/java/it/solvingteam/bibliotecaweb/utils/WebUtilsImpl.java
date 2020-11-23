@@ -93,6 +93,11 @@ public abstract class WebUtilsImpl<T> implements WebUtils<T> {
 			case "risultatiAggiornamentoLibro" : return "/jsp/aggiornamento/risultatiAggiornamentoLibro.jsp";
 			case "risultatiEliminazioneLibro" : return "/jsp/eliminazione/risultatiEliminazioneLibro.jsp";
 			
+			case "risultatiUtente": return "/jsp/ricerca/ricercaUtente/ricercaUtente.jsp";
+			case "risultatiAggiornamentoUtente": return "/jsp/aggiornamento/aggiornamentoUtente/aggiornamentoUtente.jsp";
+			case "risultatiEliminazioneUtente": return "/jsp/eliminazione/eliminazioneUtente/eliminazioneUtente.jsp";
+
+			
 			default : {
 				HttpSession session = request.getSession();
 				session.invalidate();

@@ -9,4 +9,5 @@ import it.solvingteam.bibliotecaweb.model.Utente;
 
 public interface UtenteDAO extends IBaseDAO<Utente> {
 	public Set<Utente> findAllByExampleAndRuolo(TreeMap<String,TreeSet<String>> input) throws Exception;
+	public Utente getWithRuolo(Long idUtente) throws Exception;
 }

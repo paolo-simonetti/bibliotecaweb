@@ -7,15 +7,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="../generali/header.jsp" />
-	<title>Dettaglio Libro</title>
+	<title>Dettaglio Utente</title>
 	
 	<!-- style per le pagine diverse dalla index -->
     <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
     
 </head>
 <body>
-	<jsp:include page="../generali/navbar.jsp" />
 	
 	<main role="main" class="container">
 	
@@ -40,7 +38,7 @@
 		
 		<div class='card'>
 		    <div class='card-header'>
-		        <h5>Maggiori informazioni sul libro richiesto</h5> 
+		        <h5>Maggiori informazioni sull'utente richiesto</h5> 
 		    </div>
 		    <div class='card-body'>
 					
@@ -56,37 +54,39 @@
 		                <tbody>
 		                  <tr>
 		                    <td><c:out value="Id:"/></td>
-		                    <td><c:out value="${requestScope.libroResult.idLibro}"/></td>
+		                    <td><c:out value="${requestScope.utenteResult.idUtente}"/></td>
 		                  </tr>
 		                      
 		                  <tr>
-		                    <td><c:out value="Titolo:"/></td>
-		                    <td><c:out value="${requestScope.libroResult.titolo}"/></td>
+		                    <td><c:out value="Nome:"/></td>
+		                    <td><c:out value="${requestScope.utenteResult.nomeUtente}"/></td>
 		                  </tr>
 		                      
 		                  <tr>
-		                    <td><c:out value="Genere:"/></td>
-		                    <td><c:out value="${requestScope.libroResult.genere}"/></td>
+		                    <td><c:out value="Cognome:"/></td>
+		                    <td><c:out value="${requestScope.utenteResult.cognomeUtente}"/></td>
 		                  </tr>
 		                  
 		                  <tr>
-		                    <td><c:out value="Trama:"/></td>
-		                    <td><c:out value="${requestScope.libroResult.trama}"/></td>
+		                    <td><c:out value="Username:"/></td>
+		                    <td><c:out value="${requestScope.utenteResult.username}"/></td>
 		                  </tr>
 		                  
 		                  <tr >
-		                    <td><c:out value="ISBN:"/></td>
-		                    <td><c:out value="${requestScope.libroResult.ISBN}"/></td>
+		                    <td><c:out value="Data di creazione:"/></td>
+		                    <td><c:out value="${requestScope.utenteResult.dateCreated}"/></td>
 		                  </tr>
 
 		                  <tr >
-		                    <td><c:out value="Nome e cognome dell'autore:"/></td>
-		                    <td><c:out value="${requestScope.libroResult.autoreDelLibro.nomeAutore} ${requestScope.libroResult.autoreDelLibro.cognomeAutore}"/></td>
+		                    <td><c:out value="Stato utente:"/></td>
+		                    <td><c:out value="${requestScope.utenteResult.statoUtente}" /></td>
 		                  </tr>
 
 		                  <tr >
-		                    <td><c:out value="Data di nascita dell'autore:"/></td>
-		                    <td><c:out value="${requestScope.libroResult.autoreDelLibro.dataNascita}"/></td>
+		                    <td><c:out value="Ruoli assegnati:"/></td>
+		                    <c:forEach items="${requestScope.utenteResult.ruoli}" var="ruolo">
+		                      <td><c:out value="${ruolo.nomeRuolo}"/></td>
+		                    </c:forEach>
 		                  </tr>
 
 		              </tbody>
@@ -104,5 +104,4 @@
 	
 	<!-- end container -->	
 	</main>
-	<jsp:include page="../generali/footer.jsp" />
 </html>

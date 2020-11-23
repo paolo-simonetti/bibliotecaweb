@@ -129,4 +129,12 @@ public class UtenteDAOImpl implements UtenteDAO {
 
 	}
 
+	@Override
+	public Utente getWithRuolo(Long idUtente) throws Exception {
+		Utente utenteResult=null;
+		String query="SELECT u FROM Utente u join fetch u.ruoli r where u.idUtente="+idUtente;
+		utenteResult= entityManager.createQuery(query, Utente.class).getResultList().stream().findFirst().orElse(null); 
+		return utenteResult;
+	}
+
 }

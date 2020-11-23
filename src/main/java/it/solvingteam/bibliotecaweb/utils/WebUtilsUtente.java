@@ -22,4 +22,22 @@ public class WebUtilsUtente extends WebUtilsImpl<Utente> {
 		return risultatoRicercaUtente;
 	}	
 
+	public String trasformaDaPostAGetFormatoIdRisultatiRicercaUtente (Set<Long> idRisultatiRicercaUtenteInPost) {
+		String idRisultatiRicercaUtenteInGet="";
+		for (Long id:idRisultatiRicercaUtenteInPost) {
+			idRisultatiRicercaUtenteInGet+=("risultatoRicercaUtentePerGet="+id+"&");
+		}
+		return idRisultatiRicercaUtenteInGet;
+	}
+	
+	public String trasformaDaPostAGetFormatoIdRisultatiRicercaUtente (String[] idRisultatiRicercaUtenteInPost) {
+		String idRisultatiRicercaUtenteInGet="";
+		for (String s:idRisultatiRicercaUtenteInPost) {
+			idRisultatiRicercaUtenteInGet+=("risultatoRicercaUtentePerGet="+s+"&");
+		}
+		return idRisultatiRicercaUtenteInGet;
+	}
+	
+
+
 }

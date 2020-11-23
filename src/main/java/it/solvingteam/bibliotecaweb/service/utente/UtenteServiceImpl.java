@@ -180,4 +180,23 @@ public class UtenteServiceImpl implements UtenteService {
 		}
 	}
 
+	@Override
+	public Utente caricaSingoloElementoConRuolo(Long idUtente) throws Exception {
+		if (idUtente==null) {
+			throw new Exception("Errore nell'id da visualizzare");
+		}
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+		
+			utenteDAO.setEntityManager(entityManager);
+			return utenteDAO.getWithRuolo(idUtente);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			entityManager.close();
+		}
+	}
+
 }

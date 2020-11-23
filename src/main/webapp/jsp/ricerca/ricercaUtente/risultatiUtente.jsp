@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Risultati della ricerca</title>
+	<title>Risultati della ricerca dell'utente</title>
 	
 	<!-- style per le pagine diverse dalla index -->
     
@@ -31,8 +31,8 @@
 		    <span aria-hidden="true">&times;</span>
 		  </button>
 		</div>
-		<div class="alert alert-danger alert-dismissible fade show ${dangerMessage==null?'d-none': ''}" role="alert">
-		  ${dangerMessage}
+		<div class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none': ''}" role="alert">
+		  ${errorMessage}
 		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 		    <span aria-hidden="true">&times;</span>
 		  </button>
@@ -42,10 +42,7 @@
 		    <div class='card-header'>
 		        <h5>Lista dei risultati</h5> 
 		    </div>
-		    <div class='card-body'>
-		    	<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}"><a class="btn btn-primary " href="PrepareInsertArticoloServlet">Inserisci nuovo</a></c:if>
-		    
-		        <div class='table-responsive'>
+		    	<div class='table-responsive'>
 		            <table class='table table-striped ' >
 		                <thead>
 		                    <tr>
@@ -68,11 +65,22 @@
 		                        <td><c:out value="${item.statoUtente}"></c:out></td>
 		                        <td><c:forEach items="${item.ruoli}" var="ruolo"><c:out value="${ruolo}"/> </c:forEach></td>
 		                     
-		                        <td>
-								  <a class="btn  btn-sm btn-outline-secondary" href="GetArticoloDaListaServlet?idArticoloDaVisualizzare=${item.idUtente}">Visualizza utente</a>
-									<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}"><a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateArticoloDaListaServlet?idArticoloDaAggiornare=${item.idUtente}">Aggiorna</a></c:if>
-									<c:if test="${sessionScope.hasAdminRole eq 'true'}"><a class="btn btn-outline-danger btn-sm" href="PrepareDeleteArticoloDaListaServlet?idArticoloDaEliminare=${item.idUtente}">Elimina</a></c:if>
-								</td>
+	               	<td>
+								  <a class="btn  btn-sm btn-outline-secondary" 
+								  	href="${pageContext.request.contextPath}/accessoEffettuato/visualizzazione/utente/VisualizzazioneUtenteServlet?${requestScope.risultatoRicercaUtentePerGet}idUtenteDaVisualizzare=${item.idUtente}&paginaDiProvenienza=risultatiUtente">
+									Visualizza utente
+								  </a>
+								  <c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
+								    <a class="btn  btn-sm btn-outline-primary ml-2 mr-2" 
+								      href="${pageContext.request.contextPath}/accessoEffettuato/aggiornamento/utente/PrepareUpdateUtenteServlet?${requestScope.risultatoRicercaUtentePerGet}idUtenteDaAggiornare=${item.idUtente}&paginaDiProvenienza=risultatiUtente">
+								      Aggiorna utente
+								    </a>
+								    <a class="btn btn-outline-danger btn-sm" 
+								      href="${pageContext.request.contextPath}/accessoEffettuato/eliminazione/utente/PrepareDeleteUtenteServlet?${requestScope.risultatoRicercaUtentePerGet}idUtenteDaEliminare=${item.idUtente}&paginaDiProvenienza=risultatiUtente">
+								      Elimina utente
+								    </a>
+								  </c:if>
+							  	</td>
 		                      </tr>
 		                	</c:forEach>		                   
 		                </tbody>
@@ -81,13 +89,13 @@
 		   
 			<!-- end card-body -->			   
 		    </div>
-		</div>	
+			
 	
 	
 	
 	
 	
 	
-	<!-- end container -->	
+	<!-- end container -->	 
 	</main>
 </html>

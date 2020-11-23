@@ -19,7 +19,7 @@ public class PrepareInsertAutoreServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Questi due attributi mi servono nel caso in cui io provenga dalla pagina di inserimento del libro
+		//Palleggio gli attributi, contando che questa servlet può essere stata invocata in diverse pagine
 		request.setAttribute("risultatoRicercaLibro", request.getParameter("risultatoRicercaLibro"));
 		request.setAttribute("paginaDiProvenienza", request.getParameter("paginaDiProvenienza"));
 		request.setAttribute("risultatoRicercaAutore",request.getParameter("risultatoRicercaAutore"));

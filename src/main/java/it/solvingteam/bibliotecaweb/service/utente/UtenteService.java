@@ -11,4 +11,5 @@ import it.solvingteam.bibliotecaweb.service.IBaseService;
 public interface UtenteService extends IBaseService<Utente> {
 	public void setUtenteDAO(UtenteDAO utenteDAO);
 	public Set<Utente> trovaTuttiTramiteAttributiERuolo (TreeMap<String,TreeSet<String>> input) throws Exception;
+	public Utente caricaSingoloElementoConRuolo(Long idUtente) throws Exception;
 }

@@ -75,22 +75,22 @@
 		                        <td><c:out value="${item.trama}"></c:out></td>
 		                        <td><c:out value="${item.ISBN}"></c:out></td>
 		                     
-	                         <td>
-									<a class="btn  btn-sm btn-outline-secondary" 
-									  href="${pageContext.request.contextPath}/accessoEffettuato/visualizzazione/libro/VisualizzazioneLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaVisualizzare=${item.idLibro}&paginaDiProvenienza=risultatiLibro">
-									  Visualizza libro
-									</a>
-									<c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
-									  <a class="btn  btn-sm btn-outline-primary ml-2 mr-2" 
-									    href="${pageContext.request.contextPath}/accessoEffettuato/aggiornamento/libro/PrepareUpdateLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaAggiornare=${item.idLibro}&paginaDiProvenienza=risultatiLibro">
-									    Aggiorna libro
-									  </a>
-									  <a class="btn btn-outline-danger btn-sm" 
-									    href="${pageContext.request.contextPath}/accessoEffettuato/eliminazione/libro/PrepareDeleteLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaEliminare=${item.idLibro}&paginaDiProvenienza=risultatiLibro">
-									    Elimina libro
-									  </a>
-									</c:if>
-								</td>
+	                         	<td>
+								  <a class="btn  btn-sm btn-outline-secondary" 
+								  	href="${pageContext.request.contextPath}/accessoEffettuato/visualizzazione/libro/VisualizzazioneLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaVisualizzare=${item.idLibro}&paginaDiProvenienza=risultatiLibro">
+									Visualizza libro
+								  </a>
+								  <c:if test="${sessionScope.hasAdminRole eq 'true' or sessionScope.hasClassicRole eq 'true'}">
+								    <a class="btn  btn-sm btn-outline-primary ml-2 mr-2" 
+								      href="${pageContext.request.contextPath}/accessoEffettuato/aggiornamento/libro/PrepareUpdateLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaAggiornare=${item.idLibro}&paginaDiProvenienza=risultatiLibro">
+								      Aggiorna libro
+								    </a>
+								    <a class="btn btn-outline-danger btn-sm" 
+								      href="${pageContext.request.contextPath}/accessoEffettuato/eliminazione/libro/PrepareDeleteLibroServlet?${requestScope.risultatoRicercaLibroPerGet}idLibroDaEliminare=${item.idLibro}&paginaDiProvenienza=risultatiLibro">
+								      Elimina libro
+								    </a>
+								  </c:if>
+							  	</td>
 		                      </tr>
 		                	</c:forEach>		                   
 		                </tbody>
